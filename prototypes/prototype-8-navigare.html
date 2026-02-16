@@ -31,7 +31,7 @@
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 
 body {
   font-family: var(--font-body);
@@ -405,6 +405,7 @@ h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
 /* ===== SECTION SHARED ===== */
 .section-pad {
   padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+  overflow-x: hidden;
 }
 .section-bg-alt { background: var(--bg-alt); }
 
@@ -784,6 +785,7 @@ h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
   width: 100%;
   max-width: 650px;
   margin: 0 auto;
+  overflow: hidden;
 }
 .testimonial-card {
   position: absolute;
@@ -870,6 +872,7 @@ h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 600px;
+  overflow-x: hidden;
 }
 .reservation-image {
   position: relative;
@@ -1168,6 +1171,8 @@ h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
 @media (max-width: 480px) {
   .hero-headline { font-size: 2rem; }
   .bento-grid { grid-auto-rows: 140px; }
+  .reveal-left { transform: translateX(-30px); }
+  .reveal-right { transform: translateX(30px); }
 }
 </style>
 </head>
