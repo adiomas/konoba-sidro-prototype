@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konoba Sidro — Okusi koji pričaju priče</title>
+
+    <!-- Google Fonts: Young Serif + DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Young+Serif:wght@400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* ========================================
+           RESET & BASE
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #FEFCF8;
+            color: #1A1A1A;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        body.menu-open,
+        body.nav-open {
+            overflow: hidden;
+        }
+
+        /* ========================================
+           CSS VARIABLES
+           ======================================== */
+        :root {
+            --white: #FEFCF8;
+            --sand: #F0E8D8;
+            --ink: #1A1A1A;
+            --terracotta: #B83A2A;
+            --terracotta-dark: #9d2a1f;
+            --blue: #6B899B;
+            --gold: #B8986A;
+            --border: #D4C5A9;
+            --header-height: 72px;
+        }
+
+        /* ========================================
+           TYPOGRAPHY
+           ======================================== */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Young Serif', serif;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.15;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ========================================
+           CONTAINER
+           ======================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ========================================
+           HEADER / NAVIGATION
+           ======================================== */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease;
+            background-color: transparent;
+        }
+
+        .site-header.scrolled {
+            background-color: rgba(254, 252, 248, 0.95);
+            box-shadow: 0 2px 20px rgba(26, 26, 26, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .header-logo {
+            font-family: 'Young Serif', serif;
+            font-size: 1.4rem;
+            color: var(--white);
+            transition: color 0.4s ease;
+            white-space: nowrap;
+        }
+
+        .site-header.scrolled .header-logo {
+            color: var(--ink);
+        }
+
+        .header-nav {
+            display: none;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .header-nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--white);
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .site-header.scrolled .header-nav-link {
+            color: var(--ink);
+        }
+
+        .header-nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background-color: var(--terracotta);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .header-nav-link:hover::after {
+            transform: scaleX(1);
+        }
+
+        .header-reserve-btn {
+            display: none;
+            padding: 0.6rem 1.5rem;
+            background-color: var(--terracotta);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .header-reserve-btn:hover {
+            background-color: var(--terracotta-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 44px;
+            height: 44px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1002;
+        }
+
+        .hamburger-line {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: var(--white);
+            transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.4s ease;
+            margin: 3px 0;
+        }
+
+        .site-header.scrolled .hamburger-line {
+            background-color: var(--ink);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+            background-color: var(--white);
+        }
+
+        .hamburger.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active .hamburger-line:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+            background-color: var(--white);
+        }
+
+        /* Mobile Nav Overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1001;
+            background-color: rgba(26, 26, 26, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-link {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--white);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease;
+        }
+
+        .mobile-nav-overlay.active .mobile-nav-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-nav-overlay.active .mobile-nav-link:nth-child(1) { transition-delay: 0.05s; }
+        .mobile-nav-overlay.active .mobile-nav-link:nth-child(2) { transition-delay: 0.1s; }
+        .mobile-nav-overlay.active .mobile-nav-link:nth-child(3) { transition-delay: 0.15s; }
+        .mobile-nav-overlay.active .mobile-nav-link:nth-child(4) { transition-delay: 0.2s; }
+        .mobile-nav-overlay.active .mobile-nav-link:nth-child(5) { transition-delay: 0.25s; }
+        .mobile-nav-overlay.active .mobile-nav-link:nth-child(6) { transition-delay: 0.3s; }
+        .mobile-nav-overlay.active .mobile-nav-link:nth-child(7) { transition-delay: 0.35s; }
+
+        .mobile-nav-link:hover {
+            color: var(--terracotta);
+        }
+
+        .mobile-nav-reserve {
+            margin-top: 1rem;
+            padding: 1rem 2.5rem;
+            background-color: var(--terracotta);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active .mobile-nav-reserve {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.4s;
+        }
+
+        .mobile-nav-reserve:hover {
+            background-color: var(--terracotta-dark);
+        }
+
+        /* Desktop nav visibility */
+        @media (min-width: 768px) {
+            .hamburger { display: none; }
+            .header-nav { display: flex; }
+            .header-reserve-btn { display: block; }
+            .mobile-nav-overlay { display: none; }
+        }
+
+        /* ========================================
+           FAB (Floating Action Button) — mobile only
+           ======================================== */
+        .fab {
+            display: flex;
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--terracotta);
+            color: var(--white);
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 16px rgba(184, 58, 42, 0.35);
+            z-index: 999;
+            border: none;
+            cursor: pointer;
+            animation: fab-float 3s ease-in-out infinite;
+            transition: background-color 0.3s ease;
+        }
+
+        .fab:hover {
+            background-color: var(--terracotta-dark);
+        }
+
+        @keyframes fab-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        @media (min-width: 768px) {
+            .fab { display: none; }
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80&fit=crop');
+            background-size: cover;
+            background-position: center;
+            filter: sepia(8%) saturate(90%);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(26, 26, 26, 0.35) 0%,
+                rgba(26, 26, 26, 0.15) 40%,
+                rgba(26, 26, 26, 0.25) 70%,
+                rgba(184, 58, 42, 0.2) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            color: var(--white);
+        }
+
+        .hero-content h1 {
+            color: var(--white);
+            margin-bottom: 1.25rem;
+            text-shadow: 2px 4px 12px rgba(26, 26, 26, 0.35);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: hero-fade-in 0.8s ease forwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.35rem);
+            font-style: italic;
+            font-weight: 300;
+            text-shadow: 1px 2px 6px rgba(26, 26, 26, 0.25);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: hero-fade-in 0.8s ease 0.15s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: hero-fade-in 0.8s ease 0.3s forwards;
+        }
+
+        @keyframes hero-fade-in {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2.25rem;
+            background-color: var(--terracotta);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: 2px solid var(--terracotta);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--terracotta-dark);
+            border-color: var(--terracotta-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 1rem 2.25rem;
+            background-color: transparent;
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: 2px solid var(--white);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+        }
+
+        /* ========================================
+           SECTIONS
+           ======================================== */
+        section {
+            padding: 5rem 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            section {
+                padding: 6rem 3rem;
+            }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            color: var(--ink);
+            margin-bottom: 1rem;
+        }
+
+        .section-rule {
+            width: 80px;
+            height: 2px;
+            background-color: var(--terracotta);
+            margin: 0 auto;
+        }
+
+        .section-separator {
+            width: 100%;
+            border: none;
+            border-top: 1px dotted var(--border);
+            margin: 0;
+        }
+
+        /* ========================================
+           ABOUT (Naša Priča) SECTION
+           ======================================== */
+        .about-text {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .about-text::first-letter {
+            font-size: 3.8em;
+            float: left;
+            line-height: 0.75;
+            padding-right: 0.3rem;
+            padding-top: 0.05em;
+            font-family: 'Young Serif', serif;
+            color: var(--terracotta);
+            font-weight: 400;
+        }
+
+        .about-text + .about-text {
+            margin-top: 1.5rem;
+        }
+
+        .about-text + .about-text::first-letter {
+            font-size: inherit;
+            float: none;
+            line-height: inherit;
+            padding: 0;
+            color: inherit;
+        }
+
+        /* ========================================
+           STATS BAR
+           ======================================== */
+        .stats-bar {
+            background-color: var(--sand);
+            padding: 3rem 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .stat {
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .stat:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background-color: var(--border);
+        }
+
+        .stat-number {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-family: 'Young Serif', serif;
+            color: var(--terracotta);
+            margin-bottom: 0.4rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--ink);
+            opacity: 0.8;
+        }
+
+        /* ========================================
+           FEATURED DISHES (Izabrana Jela)
+           ======================================== */
+        .featured-dishes-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+        }
+
+        @media (min-width: 600px) {
+            .featured-dishes-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .dish-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background-color: var(--white);
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .dish-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(26, 26, 26, 0.1);
+        }
+
+        .dish-card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            filter: sepia(5%) saturate(95%);
+            transition: transform 0.5s ease;
+        }
+
+        .dish-card:hover .dish-card-img {
+            transform: scale(1.05);
+        }
+
+        .dish-card-body {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dish-card-name {
+            font-family: 'Young Serif', serif;
+            font-size: 1.15rem;
+            color: var(--ink);
+        }
+
+        .dish-card-price {
+            font-weight: 500;
+            color: var(--gold);
+            font-size: 1.1rem;
+        }
+
+        .featured-cta {
+            text-align: center;
+        }
+
+        .btn-menu-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: transparent;
+            color: var(--terracotta);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: 2px solid var(--terracotta);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-menu-cta:hover {
+            background-color: var(--terracotta);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           GALLERY (Magazine Grid)
+           ======================================== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .gallery {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1;
+            border: 1px solid var(--border);
+        }
+
+        .gallery-item:nth-child(1) {
+            grid-column: span 2;
+            aspect-ratio: 16/10;
+        }
+
+        @media (min-width: 768px) {
+            .gallery-item:nth-child(1) {
+                grid-column: span 2;
+                grid-row: span 2;
+                aspect-ratio: auto;
+            }
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(5%) saturate(95%);
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 26, 26, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.4s ease;
+        }
+
+        .gallery-overlay i {
+            color: var(--white);
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            background: rgba(26, 26, 26, 0.25);
+        }
+
+        .gallery-item:hover .gallery-overlay i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ========================================
+           TESTIMONIALS CAROUSEL
+           ======================================== */
+        .carousel-wrapper {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            flex: 0 0 100%;
+            text-align: center;
+            padding: 1rem 2rem;
+        }
+
+        .quote-mark {
+            font-size: 4rem;
+            color: var(--terracotta);
+            opacity: 0.5;
+            line-height: 0.5;
+            margin-bottom: 1rem;
+            font-family: 'Young Serif', serif;
+        }
+
+        .quote-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .quote-author {
+            font-weight: 500;
+            color: var(--gold);
+            font-size: 0.95rem;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 2rem;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            background-color: transparent;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            padding: 0;
+        }
+
+        .carousel-dot.active {
+            background-color: var(--terracotta);
+            border-color: var(--terracotta);
+        }
+
+        /* ========================================
+           RESERVATION CTA SECTION
+           ======================================== */
+        .reservation-section {
+            background-color: var(--sand);
+        }
+
+        .reservation-box {
+            border: 2px solid var(--border);
+            padding: 3.5rem 2.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(254, 252, 248, 0.7);
+            text-align: center;
+        }
+
+        .reservation-box h3 {
+            color: var(--terracotta);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .reservation-subtitle {
+            font-size: 0.95rem;
+            color: var(--ink);
+            opacity: 0.7;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .reservation-details {
+            margin-bottom: 2rem;
+        }
+
+        .reservation-detail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .reservation-detail i {
+            color: var(--terracotta);
+            width: 20px;
+            text-align: center;
+        }
+
+        .reservation-detail a {
+            color: var(--ink);
+            transition: color 0.2s ease;
+        }
+
+        .reservation-detail a:hover {
+            color: var(--terracotta);
+        }
+
+        .reservation-hours {
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .reservation-hours strong {
+            font-weight: 500;
+        }
+
+        .btn-reserve-large {
+            display: inline-block;
+            padding: 1.1rem 3rem;
+            background-color: var(--terracotta);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: 2px solid var(--terracotta);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-reserve-large:hover {
+            background-color: var(--terracotta-dark);
+            border-color: var(--terracotta-dark);
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            background-color: var(--ink);
+            color: var(--sand);
+            padding: 4rem 1.5rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (min-width: 600px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 900px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        footer h4 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+            opacity: 0.85;
+        }
+
+        footer a {
+            color: var(--sand);
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--terracotta);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .footer-social a {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            transition: opacity 0.2s ease, color 0.2s ease;
+        }
+
+        .footer-social a:hover {
+            opacity: 1;
+            color: var(--terracotta);
+        }
+
+        .footer-divider {
+            border-top: 1px solid rgba(212, 197, 169, 0.2);
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* ========================================
+           MENU VIEW (Full-page overlay)
+           ======================================== */
+        .menu-view {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background-color: var(--white);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .menu-view.active {
+            display: flex;
+        }
+
+        .menu-view-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            min-height: var(--header-height);
+        }
+
+        .menu-back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--ink);
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: -0.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .menu-back-btn:hover {
+            color: var(--terracotta);
+        }
+
+        .menu-view-title {
+            font-family: 'Young Serif', serif;
+            font-size: 1.3rem;
+            color: var(--ink);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Sticky Tab Bar */
+        .menu-tabs {
+            position: sticky;
+            top: 0;
+            z-index: 9;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .menu-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .menu-tab {
+            padding: 1rem 1.5rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--ink);
+            opacity: 0.6;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: color 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .menu-tab:hover {
+            opacity: 1;
+        }
+
+        .menu-tab.active {
+            color: var(--terracotta);
+            opacity: 1;
+            border-bottom-color: var(--terracotta);
+        }
+
+        /* Menu View Content */
+        .menu-view-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2.5rem 1.5rem 4rem;
+            scroll-behavior: smooth;
+        }
+
+        @media (min-width: 768px) {
+            .menu-view-content {
+                padding: 3rem 3rem 4rem;
+            }
+        }
+
+        .menu-view-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .menu-category {
+            margin-bottom: 3.5rem;
+            scroll-margin-top: 80px;
+        }
+
+        .menu-category-title {
+            font-family: 'Young Serif', serif;
+            font-size: 1.2rem;
+            color: var(--terracotta);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        .menu-items-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        @media (min-width: 768px) {
+            .menu-items-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0 3rem;
+            }
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.5rem;
+            padding: 0.85rem 0;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        .menu-item-name {
+            font-weight: 400;
+            font-size: 0.95rem;
+        }
+
+        .menu-item-dots {
+            flex: 1;
+            border-bottom: 1px dotted var(--border);
+            min-width: 20px;
+            margin: 0 0.5rem;
+            position: relative;
+            top: -4px;
+        }
+
+        .menu-item-price {
+            color: var(--gold);
+            font-weight: 500;
+            white-space: nowrap;
+            font-size: 0.95rem;
+        }
+
+        .menu-view-cta {
+            text-align: center;
+            padding: 2rem 0 1rem;
+            border-top: 1px dotted var(--border);
+            margin-top: 1rem;
+        }
+
+        /* ========================================
+           SCROLL REVEAL
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* stagger children */
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ========================================
+           GRAIN/NOISE TEXTURE OVERLAY
+           ======================================== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 256px 256px;
+        }
+
+        /* ========================================
+           UTILITY
+           ======================================== */
+        .text-center { text-align: center; }
+        .bg-sand { background-color: var(--sand); }
+        .bg-white { background-color: var(--white); }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         HEADER
+         ============================================ -->
+    <header class="site-header" id="siteHeader">
+        <a href="#hero" class="header-logo">Konoba Sidro</a>
+
+        <nav class="header-nav">
+            <a href="#about" class="header-nav-link">O Nama</a>
+            <a href="#featured" class="header-nav-link">Jelovnik</a>
+            <a href="#gallery" class="header-nav-link">Galerija</a>
+            <a href="#testimonials" class="header-nav-link">Gosti</a>
+            <a href="#reservation" class="header-nav-link">Kontakt</a>
+        </nav>
+
+        <a href="tel:+385524445221" class="header-reserve-btn">Rezervirajte</a>
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="Otvori izbornik">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNav">
+        <a href="#hero" class="mobile-nav-link" data-nav>Početna</a>
+        <a href="#about" class="mobile-nav-link" data-nav>O Nama</a>
+        <a href="#featured" class="mobile-nav-link" data-nav>Jelovnik</a>
+        <a href="#gallery" class="mobile-nav-link" data-nav>Galerija</a>
+        <a href="#testimonials" class="mobile-nav-link" data-nav>Gosti</a>
+        <a href="#reservation" class="mobile-nav-link" data-nav>Kontakt</a>
+        <a href="tel:+385524445221" class="mobile-nav-reserve">Rezervirajte</a>
+    </div>
+
+    <!-- FAB — Mobile only -->
+    <a href="tel:+385524445221" class="fab" aria-label="Nazovite za rezervaciju">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+    <section id="hero" class="hero" style="padding: 0;">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Okusi koji pričaju priče</h1>
+            <p class="hero-subtitle">Istarska kuhinja s dušom — svježa riba, domaća tjestenina i lokalni sastojci uz obalu Jadrana</p>
+            <div class="hero-ctas">
+                <a href="tel:+385524445221" class="btn-primary">Rezervirajte Stol</a>
+                <button class="btn-secondary" id="heroMenuBtn">Pogledajte Jelovnik</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         O NAMA (About / Naša Priča)
+         ============================================ -->
+    <section id="about" class="bg-white">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Naša Priča</h2>
+                <div class="section-rule"></div>
+            </div>
+            <p class="about-text reveal">
+                Konoba Sidro već generacijama čuva tajne istarske kuhinje. Smještena uz samu obalu, naša konoba spaja autentičnu atmosferu kamenog interijera s pogledom na plavo more. Svaki dan počinjemo na ribarnici — biramo najsvježiju ribu, lokalne škampe i lignje.
+            </p>
+            <p class="about-text reveal" style="margin-top: 1.5rem;">
+                Naša tjestenina radi se ručno svako jutro, a maslinovo ulje dolazi iz obiteljskog maslinika starog preko sto godina. Filozofija je jednostavna: poštujemo tradiciju, koristimo samo najbolje lokalne sastojke i svaki tanjur pripremamo s ljubavlju.
+            </p>
+        </div>
+    </section>
+
+    <!-- ============================================
+         STATS BAR
+         ============================================ -->
+    <div class="stats-bar">
+        <div class="stats-grid reveal">
+            <div class="stat">
+                <div class="stat-number">1987</div>
+                <div class="stat-label">Godina osnivanja</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4.8/5</div>
+                <div class="stat-label">Google ocjena</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Lokalni sastojci</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         IZABRANA JELA (Featured Dishes)
+         ============================================ -->
+    <section id="featured" class="bg-white">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Izabrana Jela</h2>
+                <div class="section-rule"></div>
+            </div>
+            <div class="featured-dishes-grid">
+                <div class="dish-card reveal" onclick="openMenuView()">
+                    <div style="overflow:hidden;">
+                        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&q=80&fit=crop" alt="Brancin na žaru" class="dish-card-img" loading="lazy">
+                    </div>
+                    <div class="dish-card-body">
+                        <span class="dish-card-name">Brancin na žaru</span>
+                        <span class="dish-card-price">€28</span>
+                    </div>
+                </div>
+                <div class="dish-card reveal reveal-delay-1" onclick="openMenuView()">
+                    <div style="overflow:hidden;">
+                        <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80&fit=crop" alt="Fuži s tartufima" class="dish-card-img" loading="lazy">
+                    </div>
+                    <div class="dish-card-body">
+                        <span class="dish-card-name">Fuži s tartufima</span>
+                        <span class="dish-card-price">€22</span>
+                    </div>
+                </div>
+                <div class="dish-card reveal reveal-delay-2" onclick="openMenuView()">
+                    <div style="overflow:hidden;">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80&fit=crop" alt="Panna cotta s lavandom" class="dish-card-img" loading="lazy">
+                    </div>
+                    <div class="dish-card-body">
+                        <span class="dish-card-name">Panna cotta s lavandom</span>
+                        <span class="dish-card-price">€11</span>
+                    </div>
+                </div>
+            </div>
+            <div class="featured-cta reveal">
+                <button class="btn-menu-cta" id="featuredMenuBtn">Pogledajte cijeli jelovnik</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dotted separator -->
+    <hr class="section-separator">
+
+    <!-- ============================================
+         GALERIJA (Gallery)
+         ============================================ -->
+    <section id="gallery" class="bg-white">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Galerija</h2>
+                <div class="section-rule"></div>
+            </div>
+            <div class="gallery">
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80&fit=crop" alt="Restoran unutrašnjost" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=800&q=80&fit=crop" alt="Morski plodovi" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&q=80&fit=crop" alt="Riba na žaru" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80&fit=crop" alt="Tjestenina" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80&fit=crop" alt="Vino" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&fit=crop" alt="Fine dining" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=80&fit=crop" alt="Vanjski dio" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item reveal">
+                    <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80&fit=crop" alt="Terasa" class="gallery-img" loading="lazy">
+                    <div class="gallery-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         TESTIMONIJALI (Testimonials Carousel)
+         ============================================ -->
+    <section id="testimonials" class="bg-sand">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Što Govore Gosti</h2>
+                <div class="section-rule"></div>
+            </div>
+            <div class="carousel-wrapper reveal" id="carousel">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <div class="quote-mark">"</div>
+                        <p class="quote-text">Svaki put kad dođemo u Istru, Sidro je naša prva i zadnja večera. Brancin na žaru je savršenstvo.</p>
+                        <p class="quote-author">— Marina Kovačević, gošća od 2019.</p>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="quote-mark">"</div>
+                        <p class="quote-text">Kao da si kod bake na ručku, samo s pogledom na more. Autentična istarska kuhinja kakva se više teško nalazi.</p>
+                        <p class="quote-author">— Ante Brajković, Pula</p>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="quote-mark">"</div>
+                        <p class="quote-text">Otkrili smo Sidro slučajno i sad se vraćamo svako ljeto. Fuži s tartufima su nezaboravni.</p>
+                        <p class="quote-author">— James & Sarah Parker, London</p>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="quote-mark">"</div>
+                        <p class="quote-text">Najbolji riblji restoran u Istri. Svježe sastojke osjetiš u svakom zalogaju.</p>
+                        <p class="quote-author">— Thomas & Eva Müller, München</p>
+                    </div>
+                    <div class="carousel-slide">
+                        <div class="quote-mark">"</div>
+                        <p class="quote-text">Restoran koji poštuje tradiciju. Fuži s tartufima su najbolji koje smo ikad probali.</p>
+                        <p class="quote-author">— Famiglia Rossi, Trieste</p>
+                    </div>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         REZERVACIJA CTA
+         ============================================ -->
+    <section id="reservation" class="reservation-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Rezervirajte Svoj Stol</h2>
+                <div class="section-rule"></div>
+            </div>
+            <div class="reservation-box reveal">
+                <h3>Konoba Sidro</h3>
+                <p class="reservation-subtitle">Preporučujemo rezervaciju, posebno vikendom</p>
+                <div class="reservation-details">
+                    <div class="reservation-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Obala 12, 52210 Rovinj, Istra</span>
+                    </div>
+                    <div class="reservation-detail">
+                        <i class="fas fa-phone"></i>
+                        <a href="tel:+385524445221">+385 52 444 521</a>
+                    </div>
+                    <div class="reservation-detail">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:info@konoba-sidro.hr">info@konoba-sidro.hr</a>
+                    </div>
+                </div>
+                <div class="reservation-hours">
+                    <p><strong>Radno vrijeme</strong></p>
+                    <p>Pon–Čet: 12:00–23:00</p>
+                    <p>Pet–Sub: 12:00–23:00</p>
+                    <p>Ned: 12:00–22:00</p>
+                </div>
+                <a href="tel:+385524445221" class="btn-reserve-large">Nazovite +385 52 444 521</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>Konoba Sidro</h4>
+                    <p>Istarska kuhinja s dušom, uz obalu Jadrana od 1987.</p>
+                </div>
+                <div>
+                    <h4>Kontakt</h4>
+                    <p><a href="tel:+385524445221">+385 52 444 521</a></p>
+                    <p><a href="mailto:info@konoba-sidro.hr">info@konoba-sidro.hr</a></p>
+                    <p>Obala 12, 52210 Rovinj</p>
+                </div>
+                <div>
+                    <h4>Radno Vrijeme</h4>
+                    <p>Pon–Čet: 12–23h</p>
+                    <p>Pet–Sub: 12–23h</p>
+                    <p>Ned: 12–22h</p>
+                </div>
+                <div>
+                    <h4>Pratite Nas</h4>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Google"><i class="fab fa-google"></i></a>
+                        <a href="#" aria-label="TripAdvisor"><i class="fab fa-tripadvisor"></i></a>
+                    </div>
+                    <p style="margin-top: 1rem;">Visa, Mastercard, Amex, Cash</p>
+                </div>
+            </div>
+            <div class="footer-divider">
+                <p>&copy; 2024 Konoba Sidro. Okusi koji pričaju priče.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         MENU VIEW (Full-page overlay)
+         ============================================ -->
+    <div class="menu-view" id="menuView">
+        <div class="menu-view-header">
+            <button class="menu-back-btn" id="menuBackBtn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Natrag</span>
+            </button>
+            <span class="menu-view-title">Jelovnik</span>
+            <div style="width: 80px;"></div>
+        </div>
+
+        <div class="menu-tabs" id="menuTabs">
+            <button class="menu-tab active" data-target="cat-predjela">Predjela</button>
+            <button class="menu-tab" data-target="cat-tjestenina">Tjestenina</button>
+            <button class="menu-tab" data-target="cat-riba">Riba</button>
+            <button class="menu-tab" data-target="cat-deserti">Deserti</button>
+        </div>
+
+        <div class="menu-view-content" id="menuViewContent">
+            <div class="menu-view-container">
+
+                <!-- Predjela -->
+                <div class="menu-category" id="cat-predjela">
+                    <h3 class="menu-category-title">Predjela</h3>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <span class="menu-item-name">Istarski pršut s domaćim sirom</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€14</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Carpaccio od hobotnice</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€16</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Bruschetta s tartufima</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€18</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Tuna tartare s avokadom</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€17</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tjestenina -->
+                <div class="menu-category" id="cat-tjestenina">
+                    <h3 class="menu-category-title">Tjestenina</h3>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <span class="menu-item-name">Fuži s tartufima</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€22</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Pljukanci s divljom šparogom</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€19</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Njoki s morskim plodovima</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€21</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Crni rižoto s lignjama</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Riba -->
+                <div class="menu-category" id="cat-riba">
+                    <h3 class="menu-category-title">Riba i Morski Plodovi</h3>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <span class="menu-item-name">Brancin na žaru</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€28</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Orada s povrćem</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€26</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Lignje na buzaru</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€22</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Riblja plata za dvoje</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€55</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deserti -->
+                <div class="menu-category" id="cat-deserti">
+                    <h3 class="menu-category-title">Deserti</h3>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <span class="menu-item-name">Fritule s čokoladom</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€10</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Krostule s vanilijom</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€9</span>
+                        </div>
+                        <div class="menu-item">
+                            <span class="menu-item-name">Panna cotta s lavandom</span>
+                            <span class="menu-item-dots"></span>
+                            <span class="menu-item-price">€11</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-view-cta">
+                    <a href="tel:+385524445221" class="btn-reserve-large">Rezervirajte Stol</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ---- HEADER SCROLL DETECTION ----
+        const header = document.getElementById('siteHeader');
+        let lastScroll = 0;
+
+        function onScroll() {
+            const scrollY = window.scrollY;
+            if (scrollY > 80) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            lastScroll = scrollY;
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // ---- HAMBURGER TOGGLE ----
+        const hamburger = document.getElementById('hamburgerBtn');
+        const mobileNav = document.getElementById('mobileNav');
+
+        hamburger.addEventListener('click', function() {
+            const isOpen = hamburger.classList.toggle('active');
+            mobileNav.classList.toggle('active', isOpen);
+            document.body.classList.toggle('nav-open', isOpen);
+        });
+
+        // Close mobile nav when a link is clicked
+        document.querySelectorAll('[data-nav]').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                hamburger.classList.remove('active');
+                mobileNav.classList.remove('active');
+                document.body.classList.remove('nav-open');
+
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 72;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ---- SMOOTH ANCHOR SCROLL (desktop nav) ----
+        document.querySelectorAll('.header-nav-link').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+
+                // "Jelovnik" link opens menu view
+                if (href === '#featured') {
+                    openMenuView();
+                    return;
+                }
+
+                const target = document.querySelector(href);
+                if (target) {
+                    const offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 72;
+                    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ---- MENU VIEW ----
+        const menuView = document.getElementById('menuView');
+        const menuViewContent = document.getElementById('menuViewContent');
+        const menuTabs = document.getElementById('menuTabs');
+
+        window.openMenuView = function() {
+            menuView.classList.add('active');
+            document.body.classList.add('menu-open');
+            // Close mobile nav if open
+            hamburger.classList.remove('active');
+            mobileNav.classList.remove('active');
+            document.body.classList.remove('nav-open');
+            // Reset scroll
+            menuViewContent.scrollTop = 0;
+            // Set first tab active
+            setActiveTab(menuTabs.querySelector('.menu-tab'));
+        };
+
+        function closeMenuView() {
+            menuView.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+
+        document.getElementById('menuBackBtn').addEventListener('click', closeMenuView);
+
+        // Hero and featured menu buttons
+        document.getElementById('heroMenuBtn').addEventListener('click', openMenuView);
+        document.getElementById('featuredMenuBtn').addEventListener('click', openMenuView);
+
+        // Tab navigation
+        function setActiveTab(tab) {
+            menuTabs.querySelectorAll('.menu-tab').forEach(function(t) {
+                t.classList.remove('active');
+            });
+            tab.classList.add('active');
+        }
+
+        menuTabs.querySelectorAll('.menu-tab').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                setActiveTab(this);
+                const targetId = this.getAttribute('data-target');
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Update active tab on scroll within menu view
+        menuViewContent.addEventListener('scroll', function() {
+            const categories = menuViewContent.querySelectorAll('.menu-category');
+            const scrollTop = menuViewContent.scrollTop;
+            let currentId = '';
+
+            categories.forEach(function(cat) {
+                if (cat.offsetTop - 100 <= scrollTop) {
+                    currentId = cat.id;
+                }
+            });
+
+            if (currentId) {
+                const activeTab = menuTabs.querySelector('[data-target="' + currentId + '"]');
+                if (activeTab && !activeTab.classList.contains('active')) {
+                    setActiveTab(activeTab);
+                }
+            }
+        });
+
+        // ESC key closes menu view and mobile nav
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (menuView.classList.contains('active')) {
+                    closeMenuView();
+                }
+                if (mobileNav.classList.contains('active')) {
+                    hamburger.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.classList.remove('nav-open');
+                }
+            }
+        });
+
+        // ---- TESTIMONIALS CAROUSEL ----
+        const track = document.getElementById('carouselTrack');
+        const dotsContainer = document.getElementById('carouselDots');
+        const slides = track.querySelectorAll('.carousel-slide');
+        const slideCount = slides.length;
+        let currentSlide = 0;
+        let autoRotateTimer = null;
+        let isPaused = false;
+
+        // Create dots
+        for (let i = 0; i < slideCount; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', 'Testimonijal ' + (i + 1));
+            dot.addEventListener('click', function() {
+                goToSlide(i);
+                resetAutoRotate();
+            });
+            dotsContainer.appendChild(dot);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            track.style.transform = 'translateX(-' + (index * 100) + '%)';
+            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+            dots.forEach(function(d, i) {
+                d.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % slideCount);
+        }
+
+        function startAutoRotate() {
+            autoRotateTimer = setInterval(function() {
+                if (!isPaused) {
+                    nextSlide();
+                }
+            }, 5000);
+        }
+
+        function resetAutoRotate() {
+            clearInterval(autoRotateTimer);
+            startAutoRotate();
+        }
+
+        // Pause on hover
+        var carouselEl = document.getElementById('carousel');
+        carouselEl.addEventListener('mouseenter', function() { isPaused = true; });
+        carouselEl.addEventListener('mouseleave', function() { isPaused = false; });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselEl.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carouselEl.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    goToSlide((currentSlide + 1) % slideCount);
+                } else {
+                    goToSlide((currentSlide - 1 + slideCount) % slideCount);
+                }
+                resetAutoRotate();
+            }
+        }, { passive: true });
+
+        startAutoRotate();
+
+        // ---- SCROLL REVEAL (IntersectionObserver) ----
+        const revealElements = document.querySelectorAll('.reveal');
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealElements.forEach(function(el) {
+                observer.observe(el);
+            });
+        } else {
+            // Fallback: show all
+            revealElements.forEach(function(el) {
+                el.classList.add('active');
+            });
+        }
+
+    })();
+    </script>
+</body>
+</html>

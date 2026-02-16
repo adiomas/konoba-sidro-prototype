@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konoba Sidro — Rovinj | NAVIGARE</title>
+<meta name="description" content="Konoba Sidro — Istarska kuhinja s dušom od 1987. Svježa riba, domaća tjestenina i lokalni sastojci uz obalu Jadrana u Rovinju.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #C75B3F;
+  --primary-dark: #A34832;
+  --bg: #FAF7F2;
+  --bg-alt: #F0E8DC;
+  --ink: #1A1A1A;
+  --ink-light: #6B7280;
+  --gold: #B8986A;
+  --adriatic: #5A8BA8;
+  --border: #D4C5A9;
+  --footer-bg: #1A1A1A;
+  --white: #FFFFFF;
+  --header-h: 72px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+.hidden { display: none !important; }
+
+/* ===== TYPOGRAPHY ===== */
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.15; }
+h1 { font-size: clamp(2.5rem, 6vw, 5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
+h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-right {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-left.visible, .reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stagger delays */
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+.stagger-4 { transition-delay: 0.4s; }
+.stagger-5 { transition-delay: 0.5s; }
+.stagger-6 { transition-delay: 0.6s; }
+.stagger-7 { transition-delay: 0.7s; }
+.stagger-8 { transition-delay: 0.8s; }
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal, .reveal-left, .reveal-right { opacity: 1; transform: none; }
+  .parallax-bg { transform: none !important; }
+  .hero-headline { background-size: 100% 100% !important; -webkit-text-fill-color: var(--white) !important; }
+}
+
+/* ===== HEADER ===== */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+.site-header.scrolled {
+  background: rgba(250, 247, 242, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.02em;
+  transition: color 0.4s;
+}
+.site-header.scrolled .logo { color: var(--ink); }
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.desktop-nav a {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  transition: color 0.3s;
+  position: relative;
+}
+.desktop-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+.desktop-nav a:hover::after { width: 100%; }
+.site-header.scrolled .desktop-nav a { color: var(--ink); }
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lang-switcher {
+  display: flex;
+  gap: 4px;
+}
+.lang-btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 4px 6px;
+  color: rgba(255,255,255,0.6);
+  border-radius: 3px;
+  transition: color 0.3s, background 0.3s;
+  letter-spacing: 0.04em;
+}
+.lang-btn.active {
+  color: var(--white);
+  background: rgba(255,255,255,0.15);
+}
+.lang-btn:hover { color: var(--white); }
+.site-header.scrolled .lang-btn { color: rgba(26,26,26,0.4); }
+.site-header.scrolled .lang-btn.active {
+  color: var(--ink);
+  background: rgba(26,26,26,0.08);
+}
+.site-header.scrolled .lang-btn:hover { color: var(--ink); }
+
+.hamburger {
+  display: none;
+  width: 44px; height: 44px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  z-index: 110;
+}
+.hamburger span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s, background 0.4s;
+}
+.site-header.scrolled .hamburger span { background: var(--ink); }
+.hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); background: var(--white); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); background: var(--white); }
+
+/* ===== NAV OVERLAY ===== */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 105;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.nav-overlay-link {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--white);
+  padding: 0.5rem 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s, transform 0.5s, color 0.3s;
+}
+.nav-overlay.open .nav-overlay-link {
+  opacity: 1;
+  transform: translateY(0);
+}
+.nav-overlay.open .nav-overlay-link:nth-child(1) { transition-delay: 0.1s; }
+.nav-overlay.open .nav-overlay-link:nth-child(2) { transition-delay: 0.2s; }
+.nav-overlay.open .nav-overlay-link:nth-child(3) { transition-delay: 0.25s; }
+.nav-overlay.open .nav-overlay-link:nth-child(4) { transition-delay: 0.3s; }
+.nav-overlay.open .nav-overlay-link:nth-child(5) { transition-delay: 0.35s; }
+.nav-overlay-link:hover { color: var(--primary); }
+
+.nav-overlay-lang {
+  margin-top: 2rem;
+  display: flex;
+  gap: 8px;
+}
+.nav-overlay-lang .lang-btn {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  color: rgba(255,255,255,0.5);
+}
+.nav-overlay-lang .lang-btn.active { color: var(--white); background: rgba(255,255,255,0.12); }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 clamp(1.5rem, 4vw, 3rem) clamp(4rem, 8vh, 6rem);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.parallax-bg {
+  width: 100%; height: 120%;
+  object-fit: cover;
+  position: absolute;
+  top: -10%;
+  will-change: transform;
+}
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(26,26,26,0.85) 0%, rgba(26,26,26,0.4) 40%, rgba(26,26,26,0.15) 70%, rgba(26,26,26,0.25) 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1.05;
+  color: var(--white);
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, var(--white) 0%, var(--white) 50%, rgba(255,255,255,0.6) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textMaskReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes textMaskReveal {
+  0% { background-position: 200% 0; opacity: 0; transform: translateY(20px); }
+  100% { background-position: 0% 0; opacity: 1; transform: translateY(0); }
+}
+
+.hero-sub {
+  color: rgba(255,255,255,0.8);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 560px;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeInUp 0.8s 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.btn-filled {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-filled:hover { background: var(--primary-dark); transform: translateY(-2px); }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 32px;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  transition: border-color 0.3s, background 0.3s, transform 0.2s;
+}
+.btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  right: clamp(1.5rem, 4vw, 3rem);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeInUp 0.8s 1.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.scroll-indicator span {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+.scroll-indicator .arrow {
+  width: 1px; height: 40px;
+  background: rgba(255,255,255,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-indicator .arrow::after {
+  content: '';
+  position: absolute;
+  top: -100%; left: 0;
+  width: 1px; height: 100%;
+  background: var(--white);
+  animation: scrollArrow 2s infinite;
+}
+@keyframes scrollArrow {
+  0% { top: -100%; }
+  50% { top: 100%; }
+  50.01% { top: -100%; }
+  100% { top: -100%; }
+}
+
+/* ===== SECTION SHARED ===== */
+.section-pad {
+  padding: clamp(4rem, 8vw, 8rem) clamp(1.5rem, 4vw, 3rem);
+}
+.section-bg-alt { background: var(--bg-alt); }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+.section-title {
+  font-family: var(--font-display);
+  margin-bottom: 1rem;
+}
+.section-subtitle {
+  color: var(--ink-light);
+  font-size: 1.05rem;
+  font-weight: 300;
+  max-width: 520px;
+}
+.section-divider {
+  width: 48px; height: 2px;
+  background: var(--gold);
+  margin: 1.5rem 0;
+}
+
+/* ===== VOYAGE TIMELINE ===== */
+.timeline-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.timeline-header {
+  max-width: 500px;
+  margin-bottom: 4rem;
+}
+.timeline {
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 33.33%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+.timeline-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 33.33%;
+  top: 1.5rem;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--primary);
+  transform: translateX(-4px);
+  z-index: 2;
+}
+.timeline-item:nth-child(even) {
+  direction: rtl;
+  grid-template-columns: 2fr 1fr;
+}
+.timeline-item:nth-child(even) > * { direction: ltr; }
+.timeline-item:nth-child(even)::before {
+  left: auto;
+  right: calc(33.33% - 5px);
+}
+
+.timeline-text {
+  padding-top: 0.5rem;
+}
+.timeline-year {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+.timeline-text h3 {
+  margin-bottom: 1rem;
+}
+.timeline-text p {
+  color: var(--ink-light);
+  font-weight: 300;
+  line-height: 1.7;
+}
+.timeline-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 1.25rem;
+  padding: 8px 16px;
+  background: var(--bg-alt);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+.timeline-stat .stat-val {
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.timeline-image {
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+.timeline-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.timeline-image:hover img { transform: scale(1.04); }
+
+/* ===== PRIPREMA — HORIZONTAL SCROLL ===== */
+.prep-section {
+  overflow: hidden;
+}
+.prep-header {
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+}
+.prep-scroll-wrapper {
+  position: relative;
+}
+.prep-track {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: clamp(1.5rem, 4vw, 3rem);
+  padding: 0 clamp(1.5rem, 4vw, 3rem) 2rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+}
+.prep-track::-webkit-scrollbar { display: none; }
+.prep-track:active { cursor: grabbing; }
+
+.prep-card {
+  flex: 0 0 320px;
+  scroll-snap-align: start;
+  background: var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.prep-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+.prep-card-img {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+}
+.prep-card-body {
+  padding: 1.5rem;
+}
+.prep-time {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--primary);
+  margin-bottom: 0.4rem;
+}
+.prep-card-body h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.prep-card-body p {
+  color: var(--ink-light);
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.prep-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.5rem;
+}
+.prep-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s, transform 0.3s;
+}
+.prep-dot.active {
+  background: var(--primary);
+  transform: scale(1.25);
+}
+
+/* ===== MENU ===== */
+.menu-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.menu-header {
+  margin-bottom: 2.5rem;
+}
+.menu-tabs {
+  position: sticky;
+  top: calc(var(--header-h));
+  z-index: 20;
+  background: var(--bg);
+  padding: 1rem 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.menu-tabs::-webkit-scrollbar { display: none; }
+
+.menu-tab {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  padding: 0.75rem 1.5rem;
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.3s;
+}
+.menu-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 1.5rem; right: 1.5rem;
+  height: 2px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.menu-tab.active { color: var(--ink); }
+.menu-tab.active::after { transform: scaleX(1); }
+.menu-tab:hover { color: var(--ink); }
+
+.menu-category {
+  margin-bottom: 4rem;
+  scroll-margin-top: calc(var(--header-h) + 80px);
+}
+.menu-category-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+}
+.menu-category-divider {
+  width: 32px; height: 2px;
+  background: var(--gold);
+  margin-bottom: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 3rem;
+}
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(212, 197, 169, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.menu-item:hover {
+  transform: translateY(-4px);
+}
+.menu-item-info { flex: 1; }
+.menu-item-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+}
+.menu-item-desc {
+  font-size: 0.85rem;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+.menu-item-price {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--primary);
+  white-space: nowrap;
+  padding-top: 2px;
+}
+
+/* ===== GALLERY BENTO ===== */
+.gallery-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.gallery-header {
+  margin-bottom: 3rem;
+}
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 200px;
+  gap: 12px;
+}
+.bento-item {
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.bento-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bento-item:hover img { transform: scale(1.05); }
+
+.bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(26,26,26,0.7) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.25rem;
+}
+.bento-item:hover .bento-overlay { opacity: 1; }
+.bento-caption {
+  color: var(--white);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+.bento-large { grid-column: span 2; grid-row: span 2; }
+.bento-wide { grid-column: span 2; }
+.bento-tall { grid-row: span 2; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-section {
+  overflow: hidden;
+}
+.testimonials-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.testimonials-header {
+  margin-bottom: 3rem;
+}
+.testimonials-viewport {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  padding: 2rem 0;
+}
+.testimonial-cards-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+}
+.testimonial-card {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 100%;
+  max-width: 600px;
+  transform: translateX(-50%);
+  background: var(--white);
+  border-radius: 8px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+}
+.testimonial-card.active {
+  opacity: 1;
+  transform: translateX(-50%) scale(1) translateY(0);
+  z-index: 3;
+  pointer-events: all;
+}
+.testimonial-card.prev {
+  opacity: 0.35;
+  transform: translateX(calc(-50% - 80px)) scale(0.85) translateY(8px);
+  filter: blur(2px);
+  z-index: 1;
+}
+.testimonial-card.next {
+  opacity: 0.35;
+  transform: translateX(calc(-50% + 80px)) scale(0.85) translateY(8px);
+  filter: blur(2px);
+  z-index: 1;
+}
+.testimonial-quote {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+.testimonial-quote::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 4px; bottom: 4px;
+  width: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+.testimonial-author {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.testimonial-role {
+  font-size: 0.8rem;
+  color: var(--ink-light);
+  font-weight: 300;
+}
+
+.testimonials-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2rem;
+}
+.test-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+.test-dot.active {
+  background: var(--primary);
+  transform: scale(1.25);
+}
+
+/* ===== RESERVATION SPLIT ===== */
+.reservation-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 600px;
+}
+.reservation-image {
+  position: relative;
+  overflow: hidden;
+}
+.reservation-image img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.reservation-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3rem, 6vw, 5rem);
+  background: var(--bg);
+}
+.reservation-content .section-title {
+  margin-bottom: 1rem;
+}
+.reservation-text {
+  color: var(--ink-light);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+.reservation-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.reservation-detail {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+.reservation-detail i {
+  color: var(--primary);
+  width: 20px;
+  text-align: center;
+  font-size: 1rem;
+}
+.btn-reserve {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  background: var(--primary);
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s;
+  align-self: flex-start;
+  z-index: 1;
+}
+.btn-reserve::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 0%; height: 100%;
+  background: var(--primary-dark);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+.btn-reserve:hover::before { width: 100%; }
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--footer-bg);
+  color: rgba(255,255,255,0.7);
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem) 2rem;
+}
+.footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-bottom: 1.25rem;
+}
+.footer-col p, .footer-col a {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--white); }
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+.footer-contact-item i {
+  color: var(--primary);
+  width: 16px;
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+.footer-social a {
+  width: 40px; height: 40px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: border-color 0.3s, background 0.3s, transform 0.3s;
+}
+.footer-social a:hover {
+  border-color: var(--primary);
+  background: rgba(199,91,63,0.1);
+  transform: scale(1.1);
+}
+
+.footer-payments {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.footer-payments span {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 3px;
+  color: rgba(255,255,255,0.5);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ===== DESIGN DNA ===== */
+.design-dna {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 50;
+}
+.dna-toggle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+.dna-toggle:hover { transform: scale(1.1); }
+.dna-panel {
+  position: absolute;
+  bottom: 52px; right: 0;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  padding: 1.25rem;
+  width: 260px;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  border: 1px solid var(--border);
+}
+.dna-panel h4 {
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+.dna-panel strong { color: var(--ink); }
+.dna-panel p { color: var(--ink-light); }
+.dna-colors {
+  display: flex;
+  gap: 6px;
+  margin-top: 0.75rem;
+}
+.dna-color {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .desktop-nav { display: none; }
+  .hamburger { display: flex; }
+
+  /* Timeline */
+  .timeline::before { left: 8px; }
+  .timeline-item,
+  .timeline-item:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding-left: 2.5rem;
+    direction: ltr;
+  }
+  .timeline-item::before,
+  .timeline-item:nth-child(even)::before {
+    left: 4px; right: auto;
+  }
+  .timeline-image { aspect-ratio: 16/10; }
+}
+
+@media (max-width: 768px) {
+  :root { --header-h: 64px; }
+
+  .hero {
+    height: 90vh;
+    min-height: 500px;
+    align-items: flex-end;
+    padding-bottom: 3rem;
+  }
+  .hero-headline { font-size: clamp(2.2rem, 9vw, 3rem); }
+  .hero-ctas { flex-direction: column; }
+  .hero-ctas a { text-align: center; justify-content: center; width: 100%; }
+  .scroll-indicator { display: none; }
+
+  .section-pad { padding: 3.5rem 1.5rem; }
+
+  /* Prep cards */
+  .prep-card { flex: 0 0 85vw; }
+
+  /* Menu */
+  .menu-grid { grid-template-columns: 1fr; gap: 0; }
+  .menu-tabs { gap: 0; }
+  .menu-tab { padding: 0.6rem 1rem; font-size: 0.78rem; }
+
+  /* Gallery */
+  .bento-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 160px;
+  }
+  .bento-large { grid-column: span 2; grid-row: span 1; }
+  .bento-wide { grid-column: span 2; }
+  .bento-tall { grid-row: span 1; }
+  .bento-overlay { opacity: 1; background: linear-gradient(0deg, rgba(26,26,26,0.5) 0%, transparent 50%); }
+
+  /* Testimonials */
+  .testimonial-card.prev,
+  .testimonial-card.next {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .testimonial-card.active {
+    position: relative;
+    transform: none;
+    left: 0;
+    max-width: 100%;
+  }
+  .testimonial-cards-wrapper {
+    max-width: 100%;
+  }
+
+  /* Reservation */
+  .reservation-section {
+    grid-template-columns: 1fr;
+  }
+  .reservation-image { height: 280px; }
+  .reservation-content { padding: 2.5rem 1.5rem; }
+  .btn-reserve { width: 100%; justify-content: center; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-headline { font-size: 2rem; }
+  .bento-grid { grid-auto-rows: 140px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="site-header" id="siteHeader">
+  <a href="#" class="logo">Konoba Sidro</a>
+
+  <nav class="desktop-nav" aria-label="Main navigation">
+    <a href="#story" data-lang-group>
+      <span data-lang="hr">O nama</span>
+      <span data-lang="en" class="hidden">About</span>
+      <span data-lang="de" class="hidden">Über uns</span>
+      <span data-lang="it" class="hidden">Chi siamo</span>
+    </a>
+    <a href="#menu" data-lang-group>
+      <span data-lang="hr">Jelovnik</span>
+      <span data-lang="en" class="hidden">Menu</span>
+      <span data-lang="de" class="hidden">Speisekarte</span>
+      <span data-lang="it" class="hidden">Menù</span>
+    </a>
+    <a href="#gallery" data-lang-group>
+      <span data-lang="hr">Galerija</span>
+      <span data-lang="en" class="hidden">Gallery</span>
+      <span data-lang="de" class="hidden">Galerie</span>
+      <span data-lang="it" class="hidden">Galleria</span>
+    </a>
+    <a href="#reservation" data-lang-group>
+      <span data-lang="hr">Rezervacija</span>
+      <span data-lang="en" class="hidden">Reservation</span>
+      <span data-lang="de" class="hidden">Reservierung</span>
+      <span data-lang="it" class="hidden">Prenotazione</span>
+    </a>
+  </nav>
+
+  <div class="header-right">
+    <div class="lang-switcher">
+      <button onclick="setLang('hr')" class="lang-btn" data-lang-btn="hr">HR</button>
+      <button onclick="setLang('en')" class="lang-btn" data-lang-btn="en">EN</button>
+      <button onclick="setLang('de')" class="lang-btn" data-lang-btn="de">DE</button>
+      <button onclick="setLang('it')" class="lang-btn" data-lang-btn="it">IT</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ===== NAV OVERLAY ===== -->
+<nav class="nav-overlay" id="navOverlay" aria-label="Mobile navigation">
+  <a href="#story" class="nav-overlay-link" onclick="closeNav()" data-lang-group>
+    <span data-lang="hr">Naša priča</span>
+    <span data-lang="en" class="hidden">Our Story</span>
+    <span data-lang="de" class="hidden">Unsere Geschichte</span>
+    <span data-lang="it" class="hidden">La nostra storia</span>
+  </a>
+  <a href="#preparation" class="nav-overlay-link" onclick="closeNav()" data-lang-group>
+    <span data-lang="hr">Priprema</span>
+    <span data-lang="en" class="hidden">Preparation</span>
+    <span data-lang="de" class="hidden">Zubereitung</span>
+    <span data-lang="it" class="hidden">Preparazione</span>
+  </a>
+  <a href="#menu" class="nav-overlay-link" onclick="closeNav()" data-lang-group>
+    <span data-lang="hr">Jelovnik</span>
+    <span data-lang="en" class="hidden">Menu</span>
+    <span data-lang="de" class="hidden">Speisekarte</span>
+    <span data-lang="it" class="hidden">Menù</span>
+  </a>
+  <a href="#gallery" class="nav-overlay-link" onclick="closeNav()" data-lang-group>
+    <span data-lang="hr">Galerija</span>
+    <span data-lang="en" class="hidden">Gallery</span>
+    <span data-lang="de" class="hidden">Galerie</span>
+    <span data-lang="it" class="hidden">Galleria</span>
+  </a>
+  <a href="#reservation" class="nav-overlay-link" onclick="closeNav()" data-lang-group>
+    <span data-lang="hr">Rezervacija</span>
+    <span data-lang="en" class="hidden">Reservation</span>
+    <span data-lang="de" class="hidden">Reservierung</span>
+    <span data-lang="it" class="hidden">Prenotazione</span>
+  </a>
+  <div class="nav-overlay-lang">
+    <button onclick="setLang('hr')" class="lang-btn" data-lang-btn="hr">HR</button>
+    <button onclick="setLang('en')" class="lang-btn" data-lang-btn="en">EN</button>
+    <button onclick="setLang('de')" class="lang-btn" data-lang-btn="de">DE</button>
+    <button onclick="setLang('it')" class="lang-btn" data-lang-btn="it">IT</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <img class="parallax-bg" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80&fit=crop" alt="Terasa Konobe Sidro uz Jadransko more" loading="eager">
+    <div class="hero-gradient"></div>
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-headline" data-lang-group>
+      <span data-lang="hr">Okusi koji pričaju priče</span>
+      <span data-lang="en" class="hidden">Flavors That Tell Stories</span>
+      <span data-lang="de" class="hidden">Aromen die Geschichten erzählen</span>
+      <span data-lang="it" class="hidden">Sapori che raccontano storie</span>
+    </h1>
+    <p class="hero-sub" data-lang-group>
+      <span data-lang="hr">Istarska kuhinja s dušom — svježa riba, domaća tjestenina i lokalni sastojci uz obalu Jadrana</span>
+      <span data-lang="en" class="hidden">Istrian cuisine with soul — fresh fish, handmade pasta and local ingredients along the Adriatic coast</span>
+      <span data-lang="de" class="hidden">Istrische Küche mit Seele — frischer Fisch, hausgemachte Pasta und lokale Zutaten an der Adriaküste</span>
+      <span data-lang="it" class="hidden">Cucina istriana con anima — pesce fresco, pasta fatta in casa e ingredienti locali sulla costa adriatica</span>
+    </p>
+    <div class="hero-ctas" data-lang-group>
+      <a href="#reservation" class="btn-filled" data-lang="hr">Rezervirajte stol</a>
+      <a href="#reservation" class="btn-filled hidden" data-lang="en">Reserve a Table</a>
+      <a href="#reservation" class="btn-filled hidden" data-lang="de">Tisch reservieren</a>
+      <a href="#reservation" class="btn-filled hidden" data-lang="it">Prenota un tavolo</a>
+      <a href="#menu" class="btn-outline" data-lang="hr">Pogledajte jelovnik</a>
+      <a href="#menu" class="btn-outline hidden" data-lang="en">View Menu</a>
+      <a href="#menu" class="btn-outline hidden" data-lang="de">Speisekarte ansehen</a>
+      <a href="#menu" class="btn-outline hidden" data-lang="it">Vedi il menù</a>
+    </div>
+  </div>
+  <div class="scroll-indicator" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ===== NAŠA PRIČA — VOYAGE TIMELINE ===== -->
+<section class="section-pad" id="story">
+  <div class="timeline-section">
+    <div class="timeline-header reveal">
+      <div class="section-label" data-lang-group>
+        <span data-lang="hr">Naše putovanje</span>
+        <span data-lang="en" class="hidden">Our Voyage</span>
+        <span data-lang="de" class="hidden">Unsere Reise</span>
+        <span data-lang="it" class="hidden">Il nostro viaggio</span>
+      </div>
+      <h2 class="section-title" data-lang-group>
+        <span data-lang="hr">Naša priča</span>
+        <span data-lang="en" class="hidden">Our Story</span>
+        <span data-lang="de" class="hidden">Unsere Geschichte</span>
+        <span data-lang="it" class="hidden">La nostra storia</span>
+      </h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="timeline">
+      <!-- Item 1: Od 1987 -->
+      <div class="timeline-item">
+        <div class="timeline-text reveal-left">
+          <div class="timeline-year">1987 —</div>
+          <h3 data-lang-group>
+            <span data-lang="hr">Od 1987. čuvamo tajne istarske kuhinje</span>
+            <span data-lang="en" class="hidden">Guarding Istrian culinary secrets since 1987</span>
+            <span data-lang="de" class="hidden">Seit 1987 bewahren wir die Geheimnisse der istrischen Küche</span>
+            <span data-lang="it" class="hidden">Dal 1987 custodiamo i segreti della cucina istriana</span>
+          </h3>
+          <p data-lang-group>
+            <span data-lang="hr">Konoba Sidro već generacijama čuva tajne istarske kuhinje. Smještena uz samu obalu, naša konoba spaja autentičnu atmosferu kamenog interijera s pogledom na plavo more.</span>
+            <span data-lang="en" class="hidden">Konoba Sidro has been guarding the secrets of Istrian cuisine for generations. Nestled along the coastline, our tavern combines the authentic atmosphere of stone interiors with views of the blue Adriatic.</span>
+            <span data-lang="de" class="hidden">Konoba Sidro bewahrt seit Generationen die Geheimnisse der istrischen Küche. Direkt an der Küste gelegen, verbindet unsere Taverne die authentische Atmosphäre steinerner Innenräume mit Blick auf die blaue Adria.</span>
+            <span data-lang="it" class="hidden">Konoba Sidro custodisce da generazioni i segreti della cucina istriana. Situata lungo la costa, la nostra taverna unisce l'atmosfera autentica degli interni in pietra con la vista sul mare Adriatico.</span>
+          </p>
+          <div class="timeline-stat">
+            <span class="stat-val" data-lang-group>
+              <span data-lang="hr">Od 1987.</span>
+              <span data-lang="en" class="hidden">Since 1987</span>
+              <span data-lang="de" class="hidden">Seit 1987</span>
+              <span data-lang="it" class="hidden">Dal 1987</span>
+            </span>
+          </div>
+        </div>
+        <div class="timeline-image reveal-right">
+          <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=800&q=80&fit=crop" alt="Kamena terasa" loading="lazy">
+        </div>
+      </div>
+
+      <!-- Item 2: Ribarnica -->
+      <div class="timeline-item">
+        <div class="timeline-image reveal-left">
+          <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80&fit=crop" alt="Chef priprema jelo" loading="lazy">
+        </div>
+        <div class="timeline-text reveal-right">
+          <div class="timeline-year" data-lang-group>
+            <span data-lang="hr">Svako jutro —</span>
+            <span data-lang="en" class="hidden">Every morning —</span>
+            <span data-lang="de" class="hidden">Jeden Morgen —</span>
+            <span data-lang="it" class="hidden">Ogni mattina —</span>
+          </div>
+          <h3 data-lang-group>
+            <span data-lang="hr">Ribarnica svako jutro</span>
+            <span data-lang="en" class="hidden">The fish market every morning</span>
+            <span data-lang="de" class="hidden">Jeden Morgen auf dem Fischmarkt</span>
+            <span data-lang="it" class="hidden">Al mercato del pesce ogni mattina</span>
+          </h3>
+          <p data-lang-group>
+            <span data-lang="hr">Svaki dan počinjemo na ribarnici — biramo najsvježiju ribu, lokalne škampe i lignje. Naša tjestenina radi se ručno svako jutro, a maslinovo ulje dolazi iz obiteljskog maslinika starog preko sto godina.</span>
+            <span data-lang="en" class="hidden">Each day begins at the fish market — selecting the freshest fish, local shrimp and squid. Our pasta is handmade every morning, and our olive oil comes from a family grove over a hundred years old.</span>
+            <span data-lang="de" class="hidden">Jeder Tag beginnt auf dem Fischmarkt — wir wählen den frischesten Fisch, lokale Garnelen und Tintenfisch. Unsere Pasta wird jeden Morgen von Hand gemacht, und unser Olivenöl stammt aus einem über hundert Jahre alten Familienhain.</span>
+            <span data-lang="it" class="hidden">Ogni giorno inizia al mercato del pesce — selezioniamo il pesce più fresco, gamberi e calamari locali. La nostra pasta viene fatta a mano ogni mattina, e il nostro olio d'oliva proviene da un uliveto di famiglia di oltre cento anni.</span>
+          </p>
+          <div class="timeline-stat">
+            <span>Google</span>
+            <span class="stat-val">4.8/5</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3: Maslinik -->
+      <div class="timeline-item">
+        <div class="timeline-text reveal-left">
+          <div class="timeline-year" data-lang-group>
+            <span data-lang="hr">Filozofija —</span>
+            <span data-lang="en" class="hidden">Philosophy —</span>
+            <span data-lang="de" class="hidden">Philosophie —</span>
+            <span data-lang="it" class="hidden">Filosofia —</span>
+          </div>
+          <h3 data-lang-group>
+            <span data-lang="hr">Maslinik star 100+ godina</span>
+            <span data-lang="en" class="hidden">An olive grove over 100 years old</span>
+            <span data-lang="de" class="hidden">Ein über 100 Jahre alter Olivenhain</span>
+            <span data-lang="it" class="hidden">Un uliveto di oltre 100 anni</span>
+          </h3>
+          <p data-lang-group>
+            <span data-lang="hr">Naša filozofija je jednostavna: poštujemo tradiciju, koristimo samo najbolje lokalne sastojke i svaki tanjur pripremamo s ljubavlju.</span>
+            <span data-lang="en" class="hidden">Our philosophy is simple: we respect tradition, use only the finest local ingredients, and prepare every dish with love.</span>
+            <span data-lang="de" class="hidden">Unsere Philosophie ist einfach: Wir respektieren die Tradition, verwenden nur die besten lokalen Zutaten und bereiten jedes Gericht mit Liebe zu.</span>
+            <span data-lang="it" class="hidden">La nostra filosofia è semplice: rispettiamo la tradizione, utilizziamo solo i migliori ingredienti locali e prepariamo ogni piatto con amore.</span>
+          </p>
+          <div class="timeline-stat">
+            <span class="stat-val" data-lang-group>
+              <span data-lang="hr">100% lokalno</span>
+              <span data-lang="en" class="hidden">100% Local</span>
+              <span data-lang="de" class="hidden">100% Lokal</span>
+              <span data-lang="it" class="hidden">100% Locale</span>
+            </span>
+          </div>
+        </div>
+        <div class="timeline-image reveal-right">
+          <img src="https://images.unsplash.com/photo-1474979266404-7eaacbdc50f5a?w=800&q=80&fit=crop" alt="Maslinovo ulje" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRIPREMA — HORIZONTAL SCROLL ===== -->
+<section class="section-pad section-bg-alt prep-section" id="preparation">
+  <div class="prep-header reveal">
+    <div class="section-label" data-lang-group>
+      <span data-lang="hr">Dnevni ritual</span>
+      <span data-lang="en" class="hidden">Daily Ritual</span>
+      <span data-lang="de" class="hidden">Tägliches Ritual</span>
+      <span data-lang="it" class="hidden">Rituale quotidiano</span>
+    </div>
+    <h2 class="section-title" data-lang-group>
+      <span data-lang="hr">Priprema</span>
+      <span data-lang="en" class="hidden">Preparation</span>
+      <span data-lang="de" class="hidden">Zubereitung</span>
+      <span data-lang="it" class="hidden">Preparazione</span>
+    </h2>
+    <p class="section-subtitle" data-lang-group>
+      <span data-lang="hr">Svaki dan počinje na ribarnici</span>
+      <span data-lang="en" class="hidden">Every day begins at the fish market</span>
+      <span data-lang="de" class="hidden">Jeder Tag beginnt auf dem Fischmarkt</span>
+      <span data-lang="it" class="hidden">Ogni giorno inizia al mercato del pesce</span>
+    </p>
+  </div>
+
+  <div class="prep-scroll-wrapper">
+    <div class="prep-track" id="prepTrack">
+      <div class="prep-card reveal stagger-1">
+        <img class="prep-card-img" src="https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=800&q=80&fit=crop" alt="Ribarnica" loading="lazy">
+        <div class="prep-card-body">
+          <div class="prep-time">06:00</div>
+          <h4 data-lang-group>
+            <span data-lang="hr">Ribarnica</span>
+            <span data-lang="en" class="hidden">Fish Market</span>
+            <span data-lang="de" class="hidden">Fischmarkt</span>
+            <span data-lang="it" class="hidden">Mercato del pesce</span>
+          </h4>
+          <p data-lang-group>
+            <span data-lang="hr">Biramo najsvježiju ribu i morske plodove direktno od lokalnih ribara</span>
+            <span data-lang="en" class="hidden">We select the freshest fish and seafood directly from local fishermen</span>
+            <span data-lang="de" class="hidden">Wir wählen den frischesten Fisch direkt von lokalen Fischern</span>
+            <span data-lang="it" class="hidden">Selezioniamo il pesce più fresco direttamente dai pescatori locali</span>
+          </p>
+        </div>
+      </div>
+      <div class="prep-card reveal stagger-2">
+        <img class="prep-card-img" src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80&fit=crop" alt="Svježi začini" loading="lazy">
+        <div class="prep-card-body">
+          <div class="prep-time">08:00</div>
+          <h4 data-lang-group>
+            <span data-lang="hr">Svježi sastojci</span>
+            <span data-lang="en" class="hidden">Fresh Ingredients</span>
+            <span data-lang="de" class="hidden">Frische Zutaten</span>
+            <span data-lang="it" class="hidden">Ingredienti freschi</span>
+          </h4>
+          <p data-lang-group>
+            <span data-lang="hr">Lokalno povrće, začinsko bilje i maslinovo ulje iz obiteljskog maslinika</span>
+            <span data-lang="en" class="hidden">Local vegetables, herbs and olive oil from the family grove</span>
+            <span data-lang="de" class="hidden">Lokales Gemüse, Kräuter und Olivenöl aus dem Familienhain</span>
+            <span data-lang="it" class="hidden">Verdure locali, erbe aromatiche e olio d'oliva dall'uliveto di famiglia</span>
+          </p>
+        </div>
+      </div>
+      <div class="prep-card reveal stagger-3">
+        <img class="prep-card-img" src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80&fit=crop" alt="Ručna tjestenina" loading="lazy">
+        <div class="prep-card-body">
+          <div class="prep-time">09:30</div>
+          <h4 data-lang-group>
+            <span data-lang="hr">Ručna tjestenina</span>
+            <span data-lang="en" class="hidden">Handmade Pasta</span>
+            <span data-lang="de" class="hidden">Handgemachte Pasta</span>
+            <span data-lang="it" class="hidden">Pasta fatta a mano</span>
+          </h4>
+          <p data-lang-group>
+            <span data-lang="hr">Fuži, pljukanci i njoki — svako jutro svježe pripremljeni po tradicionalnim receptima</span>
+            <span data-lang="en" class="hidden">Fuži, pljukanci and gnocchi — freshly prepared every morning from traditional recipes</span>
+            <span data-lang="de" class="hidden">Fuži, Pljukanci und Gnocchi — jeden Morgen frisch nach traditionellen Rezepten zubereitet</span>
+            <span data-lang="it" class="hidden">Fuži, pljukanci e gnocchi — preparati freschi ogni mattina con ricette tradizionali</span>
+          </p>
+        </div>
+      </div>
+      <div class="prep-card reveal stagger-4">
+        <img class="prep-card-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&fit=crop" alt="Postavljeni stol" loading="lazy">
+        <div class="prep-card-body">
+          <div class="prep-time">11:00</div>
+          <h4 data-lang-group>
+            <span data-lang="hr">Stol je spreman</span>
+            <span data-lang="en" class="hidden">Table is Set</span>
+            <span data-lang="de" class="hidden">Der Tisch ist gedeckt</span>
+            <span data-lang="it" class="hidden">La tavola è pronta</span>
+          </h4>
+          <p data-lang-group>
+            <span data-lang="hr">Sve je spremno za naše goste — svježe, lokalno, s ljubavlju pripremljeno</span>
+            <span data-lang="en" class="hidden">Everything is ready for our guests — fresh, local, prepared with love</span>
+            <span data-lang="de" class="hidden">Alles ist bereit für unsere Gäste — frisch, lokal, mit Liebe zubereitet</span>
+            <span data-lang="it" class="hidden">Tutto è pronto per i nostri ospiti — fresco, locale, preparato con amore</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="prep-dots" id="prepDots" aria-label="Scroll position"></div>
+  </div>
+</section>
+
+<!-- ===== JELOVNIK — INLINE MENU ===== -->
+<section class="section-pad" id="menu">
+  <div class="menu-section">
+    <div class="menu-header reveal">
+      <div class="section-label" data-lang-group>
+        <span data-lang="hr">Naš jelovnik</span>
+        <span data-lang="en" class="hidden">Our Menu</span>
+        <span data-lang="de" class="hidden">Unsere Speisekarte</span>
+        <span data-lang="it" class="hidden">Il nostro menù</span>
+      </div>
+      <h2 class="section-title" data-lang-group>
+        <span data-lang="hr">Jelovnik</span>
+        <span data-lang="en" class="hidden">Menu</span>
+        <span data-lang="de" class="hidden">Speisekarte</span>
+        <span data-lang="it" class="hidden">Menù</span>
+      </h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="menu-tabs" id="menuTabs" role="tablist">
+      <button class="menu-tab active" data-tab="predjela" role="tab" data-lang-group>
+        <span data-lang="hr">Predjela</span>
+        <span data-lang="en" class="hidden">Starters</span>
+        <span data-lang="de" class="hidden">Vorspeisen</span>
+        <span data-lang="it" class="hidden">Antipasti</span>
+      </button>
+      <button class="menu-tab" data-tab="tjestenina" role="tab" data-lang-group>
+        <span data-lang="hr">Tjestenina</span>
+        <span data-lang="en" class="hidden">Pasta</span>
+        <span data-lang="de" class="hidden">Pasta</span>
+        <span data-lang="it" class="hidden">Pasta</span>
+      </button>
+      <button class="menu-tab" data-tab="riba" role="tab" data-lang-group>
+        <span data-lang="hr">Riba</span>
+        <span data-lang="en" class="hidden">Fish</span>
+        <span data-lang="de" class="hidden">Fisch</span>
+        <span data-lang="it" class="hidden">Fisch</span>
+      </button>
+      <button class="menu-tab" data-tab="deserti" role="tab" data-lang-group>
+        <span data-lang="hr">Deserti</span>
+        <span data-lang="en" class="hidden">Desserts</span>
+        <span data-lang="de" class="hidden">Nachspeisen</span>
+        <span data-lang="it" class="hidden">Dolci</span>
+      </button>
+    </div>
+
+    <!-- Predjela -->
+    <div class="menu-category reveal" id="predjela">
+      <h3 class="menu-category-title" data-lang-group>
+        <span data-lang="hr">Predjela</span>
+        <span data-lang="en" class="hidden">Starters</span>
+        <span data-lang="de" class="hidden">Vorspeisen</span>
+        <span data-lang="it" class="hidden">Antipasti</span>
+      </h3>
+      <div class="menu-category-divider"></div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Istarski pršut s domaćim sirom</span>
+              <span data-lang="en" class="hidden">Istrian prosciutto with local cheese</span>
+              <span data-lang="de" class="hidden">Istrischer Schinken mit lokalem Käse</span>
+              <span data-lang="it" class="hidden">Prosciutto istriano con formaggio locale</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€14</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Carpaccio od hobotnice</span>
+              <span data-lang="en" class="hidden">Octopus carpaccio with lemon</span>
+              <span data-lang="de" class="hidden">Oktopus-Carpaccio mit Zitrone</span>
+              <span data-lang="it" class="hidden">Carpaccio di polpo al limone</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€16</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Bruschetta s tartufima</span>
+              <span data-lang="en" class="hidden">Truffle bruschetta</span>
+              <span data-lang="de" class="hidden">Bruschetta mit Trüffeln</span>
+              <span data-lang="it" class="hidden">Bruschetta al tartufo</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€18</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Tuna tartare s avokadom</span>
+              <span data-lang="en" class="hidden">Tuna tartare with avocado</span>
+              <span data-lang="de" class="hidden">Thunfisch-Tartare mit Avocado</span>
+              <span data-lang="it" class="hidden">Tartare di tonno con avocado</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€17</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tjestenina -->
+    <div class="menu-category reveal" id="tjestenina">
+      <h3 class="menu-category-title" data-lang-group>
+        <span data-lang="hr">Tjestenina</span>
+        <span data-lang="en" class="hidden">Pasta</span>
+        <span data-lang="de" class="hidden">Pasta</span>
+        <span data-lang="it" class="hidden">Pasta</span>
+      </h3>
+      <div class="menu-category-divider"></div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Fuži s tartufima</span>
+              <span data-lang="en" class="hidden">Fuži with truffles</span>
+              <span data-lang="de" class="hidden">Fuži mit Trüffeln</span>
+              <span data-lang="it" class="hidden">Fuži al tartufo</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€22</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Pljukanci s divljom šparogom</span>
+              <span data-lang="en" class="hidden">Pljukanci with wild asparagus</span>
+              <span data-lang="de" class="hidden">Pljukanci mit wildem Spargel</span>
+              <span data-lang="it" class="hidden">Pljukanci con asparagi selvatici</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€19</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Njoki s morskim plodovima</span>
+              <span data-lang="en" class="hidden">Gnocchi with seafood</span>
+              <span data-lang="de" class="hidden">Gnocchi mit Meeresfrüchten</span>
+              <span data-lang="it" class="hidden">Gnocchi ai frutti di mare</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€21</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Crni rižoto s lignjama</span>
+              <span data-lang="en" class="hidden">Black risotto with squid</span>
+              <span data-lang="de" class="hidden">Schwarzes Risotto mit Tintenfisch</span>
+              <span data-lang="it" class="hidden">Risotto nero con calamari</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€20</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Riba -->
+    <div class="menu-category reveal" id="riba">
+      <h3 class="menu-category-title" data-lang-group>
+        <span data-lang="hr">Riba i morski plodovi</span>
+        <span data-lang="en" class="hidden">Fish & Seafood</span>
+        <span data-lang="de" class="hidden">Fisch & Meeresfrüchte</span>
+        <span data-lang="it" class="hidden">Pesce e frutti di mare</span>
+      </h3>
+      <div class="menu-category-divider"></div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Brancin na žaru</span>
+              <span data-lang="en" class="hidden">Grilled sea bass</span>
+              <span data-lang="de" class="hidden">Gegrillter Wolfsbarsch</span>
+              <span data-lang="it" class="hidden">Branzino alla griglia</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€28</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Orada s povrćem</span>
+              <span data-lang="en" class="hidden">Sea bream with vegetables</span>
+              <span data-lang="de" class="hidden">Goldbrasse mit Gemüse</span>
+              <span data-lang="it" class="hidden">Orata con verdure</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€26</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Lignje na buzaru</span>
+              <span data-lang="en" class="hidden">Squid buzara style</span>
+              <span data-lang="de" class="hidden">Tintenfisch Buzara-Art</span>
+              <span data-lang="it" class="hidden">Calamari alla buzara</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€22</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Riblja plata za dvoje</span>
+              <span data-lang="en" class="hidden">Fish platter for two</span>
+              <span data-lang="de" class="hidden">Fischplatte für zwei</span>
+              <span data-lang="it" class="hidden">Piatto di pesce per due</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€55</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deserti -->
+    <div class="menu-category reveal" id="deserti">
+      <h3 class="menu-category-title" data-lang-group>
+        <span data-lang="hr">Deserti</span>
+        <span data-lang="en" class="hidden">Desserts</span>
+        <span data-lang="de" class="hidden">Nachspeisen</span>
+        <span data-lang="it" class="hidden">Dolci</span>
+      </h3>
+      <div class="menu-category-divider"></div>
+      <div class="menu-grid">
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Fritule s čokoladom</span>
+              <span data-lang="en" class="hidden">Fritule with chocolate</span>
+              <span data-lang="de" class="hidden">Fritule mit Schokolade</span>
+              <span data-lang="it" class="hidden">Fritule al cioccolato</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€10</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Kroštule s vanilijom</span>
+              <span data-lang="en" class="hidden">Kroštule with vanilla</span>
+              <span data-lang="de" class="hidden">Kroštule mit Vanille</span>
+              <span data-lang="it" class="hidden">Kroštule alla vaniglia</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€9</div>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-info">
+            <div class="menu-item-name" data-lang-group>
+              <span data-lang="hr">Panna cotta s lavandom</span>
+              <span data-lang="en" class="hidden">Panna cotta with lavender</span>
+              <span data-lang="de" class="hidden">Panna Cotta mit Lavendel</span>
+              <span data-lang="it" class="hidden">Panna cotta alla lavanda</span>
+            </div>
+          </div>
+          <div class="menu-item-price">€11</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALERIJA — BENTO GRID ===== -->
+<section class="section-pad section-bg-alt" id="gallery">
+  <div class="gallery-section">
+    <div class="gallery-header reveal">
+      <div class="section-label" data-lang-group>
+        <span data-lang="hr">Uronite u atmosferu</span>
+        <span data-lang="en" class="hidden">Immerse yourself</span>
+        <span data-lang="de" class="hidden">Tauchen Sie ein</span>
+        <span data-lang="it" class="hidden">Immergiti</span>
+      </div>
+      <h2 class="section-title" data-lang-group>
+        <span data-lang="hr">Galerija</span>
+        <span data-lang="en" class="hidden">Gallery</span>
+        <span data-lang="de" class="hidden">Galerie</span>
+        <span data-lang="it" class="hidden">Galleria</span>
+      </h2>
+      <p class="section-subtitle" data-lang-group>
+        <span data-lang="hr">Atmosfera, okusi i trenuci</span>
+        <span data-lang="en" class="hidden">Atmosphere, flavors and moments</span>
+        <span data-lang="de" class="hidden">Atmosphäre, Aromen und Momente</span>
+        <span data-lang="it" class="hidden">Atmosfera, sapori e momenti</span>
+      </p>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="bento-grid">
+      <div class="bento-item bento-large reveal stagger-1">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80&fit=crop" alt="Interijer restorana" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption" data-lang-group><span data-lang="hr">Kameni interijer</span><span data-lang="en" class="hidden">Stone interior</span><span data-lang="de" class="hidden">Steininterieur</span><span data-lang="it" class="hidden">Interni in pietra</span></span></div>
+      </div>
+      <div class="bento-item reveal stagger-2">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80&fit=crop" alt="Prezentacija jela" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption" data-lang-group><span data-lang="hr">Prezentacija jela</span><span data-lang="en" class="hidden">Food plating</span><span data-lang="de" class="hidden">Anrichten</span><span data-lang="it" class="hidden">Impiattamento</span></span></div>
+      </div>
+      <div class="bento-item reveal stagger-3">
+        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&q=80&fit=crop" alt="Riba na žaru" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption" data-lang-group><span data-lang="hr">Riba na žaru</span><span data-lang="en" class="hidden">Grilled fish</span><span data-lang="de" class="hidden">Gegrillter Fisch</span><span data-lang="it" class="hidden">Pesce alla griglia</span></span></div>
+      </div>
+      <div class="bento-item bento-wide reveal stagger-4">
+        <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80&fit=crop" alt="Večera uz vino" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption" data-lang-group><span data-lang="hr">Večera uz vino</span><span data-lang="en" class="hidden">Wine dinner</span><span data-lang="de" class="hidden">Weinabend</span><span data-lang="it" class="hidden">Cena con vino</span></span></div>
+      </div>
+      <div class="bento-item bento-tall reveal stagger-5">
+        <img src="https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?w=800&q=80&fit=crop" alt="Bruschetta" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption">Bruschetta</span></div>
+      </div>
+      <div class="bento-item bento-tall reveal stagger-6">
+        <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=80&fit=crop" alt="Vanjska terasa" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption" data-lang-group><span data-lang="hr">Terasa</span><span data-lang="en" class="hidden">Terrace</span><span data-lang="de" class="hidden">Terrasse</span><span data-lang="it" class="hidden">Terrazza</span></span></div>
+      </div>
+      <div class="bento-item reveal stagger-7">
+        <img src="https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=800&q=80&fit=crop" alt="Začinsko bilje" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption" data-lang-group><span data-lang="hr">Svježe bilje</span><span data-lang="en" class="hidden">Fresh herbs</span><span data-lang="de" class="hidden">Frische Kräuter</span><span data-lang="it" class="hidden">Erbe fresche</span></span></div>
+      </div>
+      <div class="bento-item reveal stagger-8">
+        <img src="https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=800&q=80&fit=crop" alt="Morski plodovi" loading="lazy">
+        <div class="bento-overlay"><span class="bento-caption" data-lang-group><span data-lang="hr">Morski plodovi</span><span data-lang="en" class="hidden">Seafood</span><span data-lang="de" class="hidden">Meeresfrüchte</span><span data-lang="it" class="hidden">Frutti di mare</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GOSTI GOVORE — STACKED CARDS ===== -->
+<section class="section-pad testimonials-section" id="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-header reveal">
+      <div class="section-label" data-lang-group>
+        <span data-lang="hr">Iskustva gostiju</span>
+        <span data-lang="en" class="hidden">Guest Experiences</span>
+        <span data-lang="de" class="hidden">Gästeerfahrungen</span>
+        <span data-lang="it" class="hidden">Esperienze degli ospiti</span>
+      </div>
+      <h2 class="section-title" data-lang-group>
+        <span data-lang="hr">Gosti govore</span>
+        <span data-lang="en" class="hidden">Our Guests Say</span>
+        <span data-lang="de" class="hidden">Unsere Gäste sagen</span>
+        <span data-lang="it" class="hidden">I nostri ospiti dicono</span>
+      </h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="testimonials-viewport">
+      <div class="testimonial-cards-wrapper" id="testimonialWrapper">
+        <div class="testimonial-card" data-index="0">
+          <div class="testimonial-quote" data-lang-group>
+            <span data-lang="hr">"Svaki put kad dođemo u Istru, Sidro je naša prva i zadnja večera. Brancin na žaru je savršenstvo."</span>
+            <span data-lang="en" class="hidden">"Every time we visit Istria, Sidro is our first and last dinner. The grilled sea bass is perfection."</span>
+            <span data-lang="de" class="hidden">"Jedes Mal, wenn wir nach Istrien kommen, ist Sidro unser erstes und letztes Abendessen. Der gegrillte Wolfsbarsch ist Perfektion."</span>
+            <span data-lang="it" class="hidden">"Ogni volta che visitiamo l'Istria, Sidro è la nostra prima e ultima cena. Il branzino alla griglia è perfezione."</span>
+          </div>
+          <div class="testimonial-author">Marina Kovačević</div>
+          <div class="testimonial-role" data-lang-group>
+            <span data-lang="hr">Gošća od 2019.</span>
+            <span data-lang="en" class="hidden">Guest since 2019</span>
+            <span data-lang="de" class="hidden">Gast seit 2019</span>
+            <span data-lang="it" class="hidden">Ospite dal 2019</span>
+          </div>
+        </div>
+        <div class="testimonial-card" data-index="1">
+          <div class="testimonial-quote" data-lang-group>
+            <span data-lang="hr">"Kao da si kod bake na ručku, samo s pogledom na more. Autentična istarska kuhinja kakva se više teško nalazi."</span>
+            <span data-lang="en" class="hidden">"Like having lunch at grandma's, but with a sea view. Authentic Istrian cuisine that's hard to find anymore."</span>
+            <span data-lang="de" class="hidden">"Wie Mittagessen bei Oma, nur mit Meerblick. Authentische istrische Küche, die man kaum noch findet."</span>
+            <span data-lang="it" class="hidden">"Come pranzare dalla nonna, ma con vista sul mare. Cucina istriana autentica difficile da trovare."</span>
+          </div>
+          <div class="testimonial-author">Ante Brajković</div>
+          <div class="testimonial-role">Pula</div>
+        </div>
+        <div class="testimonial-card" data-index="2">
+          <div class="testimonial-quote" data-lang-group>
+            <span data-lang="hr">"Otkrili smo Sidro slučajno i sad se vraćamo svako ljeto. Fuži s tartufima su nezaboravni."</span>
+            <span data-lang="en" class="hidden">"We discovered Sidro by accident and now we come back every summer. The truffle fuži are unforgettable."</span>
+            <span data-lang="de" class="hidden">"Wir haben Sidro zufällig entdeckt und kommen jetzt jeden Sommer zurück. Die Trüffel-Fuži sind unvergesslich."</span>
+            <span data-lang="it" class="hidden">"Abbiamo scoperto Sidro per caso e ora torniamo ogni estate. I fuži al tartufo sono indimenticabili."</span>
+          </div>
+          <div class="testimonial-author">James & Sarah Parker</div>
+          <div class="testimonial-role">London</div>
+        </div>
+        <div class="testimonial-card" data-index="3">
+          <div class="testimonial-quote" data-lang-group>
+            <span data-lang="hr">"Najbolji riblji restoran u Istri. Svježe sastojke osjetiš u svakom zalogaju."</span>
+            <span data-lang="en" class="hidden">"The best fish restaurant in Istria. You can taste the fresh ingredients in every bite."</span>
+            <span data-lang="de" class="hidden">"Das beste Fischrestaurant in Istrien. Die frischen Zutaten schmeckt man in jedem Bissen."</span>
+            <span data-lang="it" class="hidden">"Il miglior ristorante di pesce in Istria. Si sentono gli ingredienti freschi in ogni boccone."</span>
+          </div>
+          <div class="testimonial-author">Thomas & Eva Müller</div>
+          <div class="testimonial-role">München</div>
+        </div>
+        <div class="testimonial-card" data-index="4">
+          <div class="testimonial-quote" data-lang-group>
+            <span data-lang="hr">"Restoran koji poštuje tradiciju. Fuži s tartufima su najbolji koje smo ikad probali."</span>
+            <span data-lang="en" class="hidden">"A restaurant that respects tradition. The truffle fuži are the best we've ever tried."</span>
+            <span data-lang="de" class="hidden">"Ein Restaurant, das die Tradition respektiert. Die Trüffel-Fuži sind die besten, die wir je probiert haben."</span>
+            <span data-lang="it" class="hidden">"Un ristorante che rispetta la tradizione. I fuži ai tartufi sono i migliori che abbiamo mai provato."</span>
+          </div>
+          <div class="testimonial-author">Famiglia Rossi</div>
+          <div class="testimonial-role">Trieste</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonials-dots" id="testimonialDots"></div>
+  </div>
+</section>
+
+<!-- ===== REZERVACIJA — SPLIT SCREEN ===== -->
+<section class="reservation-section" id="reservation">
+  <div class="reservation-image reveal-left">
+    <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=80&fit=crop" alt="Terasa uz more" loading="lazy">
+  </div>
+  <div class="reservation-content reveal-right">
+    <div class="section-label" data-lang-group>
+      <span data-lang="hr">Dođite k nama</span>
+      <span data-lang="en" class="hidden">Come visit us</span>
+      <span data-lang="de" class="hidden">Besuchen Sie uns</span>
+      <span data-lang="it" class="hidden">Venite a trovarci</span>
+    </div>
+    <h2 class="section-title" data-lang-group>
+      <span data-lang="hr">Rezervirajte svoj stol</span>
+      <span data-lang="en" class="hidden">Reserve Your Table</span>
+      <span data-lang="de" class="hidden">Reservieren Sie Ihren Tisch</span>
+      <span data-lang="it" class="hidden">Prenota il tuo tavolo</span>
+    </h2>
+    <div class="section-divider"></div>
+    <p class="reservation-text" data-lang-group>
+      <span data-lang="hr">Za rezervacije nazovite nas ili pošaljite upit putem forme. Preporučujemo rezervaciju, posebno vikendom i tijekom ljetne sezone.</span>
+      <span data-lang="en" class="hidden">For reservations, call us or send an inquiry via the form. We recommend booking in advance, especially on weekends and during summer season.</span>
+      <span data-lang="de" class="hidden">Für Reservierungen rufen Sie uns an oder senden Sie eine Anfrage über das Formular. Wir empfehlen eine Vorab-Reservierung, besonders am Wochenende und während der Sommersaison.</span>
+      <span data-lang="it" class="hidden">Per prenotazioni, chiamateci o inviate una richiesta tramite il modulo. Consigliamo la prenotazione anticipata, soprattutto nei weekend e durante la stagione estiva.</span>
+    </p>
+    <div class="reservation-details">
+      <div class="reservation-detail">
+        <i class="fas fa-phone"></i>
+        <a href="tel:+38552444521">+385 52 444 521</a>
+      </div>
+      <div class="reservation-detail">
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:info@konoba-sidro.hr">info@konoba-sidro.hr</a>
+      </div>
+      <div class="reservation-detail">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Obala 12, 52210 Rovinj, Istra</span>
+      </div>
+      <div class="reservation-detail">
+        <i class="fas fa-clock"></i>
+        <span data-lang-group>
+          <span data-lang="hr">Pon-Čet 12-23h · Pet-Sub 12-23h · Ned 12-22h</span>
+          <span data-lang="en" class="hidden">Mon-Thu 12-23h · Fri-Sat 12-23h · Sun 12-22h</span>
+          <span data-lang="de" class="hidden">Mo-Do 12-23h · Fr-Sa 12-23h · So 12-22h</span>
+          <span data-lang="it" class="hidden">Lun-Gio 12-23h · Ven-Sab 12-23h · Dom 12-22h</span>
+        </span>
+      </div>
+    </div>
+    <a href="tel:+38552444521" class="btn-reserve" data-lang-group>
+      <i class="fas fa-phone"></i>
+      <span data-lang="hr">Nazovite +385 52 444 521</span>
+      <span data-lang="en" class="hidden">Call +385 52 444 521</span>
+      <span data-lang="de" class="hidden">Anrufen +385 52 444 521</span>
+      <span data-lang="it" class="hidden">Chiama +385 52 444 521</span>
+    </a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4 data-lang-group>
+        <span data-lang="hr">Kontakt</span>
+        <span data-lang="en" class="hidden">Contact</span>
+        <span data-lang="de" class="hidden">Kontakt</span>
+        <span data-lang="it" class="hidden">Contatto</span>
+      </h4>
+      <div class="footer-contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>Obala 12, 52210 Rovinj, Istra, Hrvatska</span>
+      </div>
+      <div class="footer-contact-item">
+        <i class="fas fa-phone"></i>
+        <a href="tel:+38552444521">+385 52 444 521</a>
+      </div>
+      <div class="footer-contact-item">
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:info@konoba-sidro.hr">info@konoba-sidro.hr</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-lang-group>
+        <span data-lang="hr">Radno vrijeme</span>
+        <span data-lang="en" class="hidden">Opening Hours</span>
+        <span data-lang="de" class="hidden">Öffnungszeiten</span>
+        <span data-lang="it" class="hidden">Orari di apertura</span>
+      </h4>
+      <p data-lang-group>
+        <span data-lang="hr">Pon-Čet: 12:00 - 23:00<br>Pet-Sub: 12:00 - 23:00<br>Nedjelja: 12:00 - 22:00<br><br><em>Zima (XI-III): Zatvoreno ponedjeljkom</em></span>
+        <span data-lang="en" class="hidden">Mon-Thu: 12:00 - 23:00<br>Fri-Sat: 12:00 - 23:00<br>Sunday: 12:00 - 22:00<br><br><em>Winter (Nov-Mar): Closed Mondays</em></span>
+        <span data-lang="de" class="hidden">Mo-Do: 12:00 - 23:00<br>Fr-Sa: 12:00 - 23:00<br>Sonntag: 12:00 - 22:00<br><br><em>Winter (Nov-Mär): Montags geschlossen</em></span>
+        <span data-lang="it" class="hidden">Lun-Gio: 12:00 - 23:00<br>Ven-Sab: 12:00 - 23:00<br>Domenica: 12:00 - 22:00<br><br><em>Inverno (Nov-Mar): Chiuso il lunedì</em></span>
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4 data-lang-group>
+        <span data-lang="hr">Pratite nas</span>
+        <span data-lang="en" class="hidden">Follow us</span>
+        <span data-lang="de" class="hidden">Folgen Sie uns</span>
+        <span data-lang="it" class="hidden">Seguici</span>
+      </h4>
+      <div class="footer-social">
+        <a href="https://facebook.com/konoba.sidro" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://instagram.com/konobasidro" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p style="margin-bottom: 0.75rem;" data-lang-group>
+        <span data-lang="hr">Način plaćanja</span>
+        <span data-lang="en" class="hidden">Payment methods</span>
+        <span data-lang="de" class="hidden">Zahlungsmethoden</span>
+        <span data-lang="it" class="hidden">Metodi di pagamento</span>
+      </p>
+      <div class="footer-payments">
+        <span>VISA</span>
+        <span>MC</span>
+        <span>AMEX</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2024 Konoba Sidro. <span data-lang-group><span data-lang="hr">Sva prava pridržana.</span><span data-lang="en" class="hidden">All rights reserved.</span><span data-lang="de" class="hidden">Alle Rechte vorbehalten.</span><span data-lang="it" class="hidden">Tutti i diritti riservati.</span></span></span>
+    <span>Rovinj, Istra</span>
+  </div>
+</footer>
+
+<!-- ===== DESIGN DNA BADGE ===== -->
+<div class="design-dna">
+  <button class="dna-toggle" onclick="this.nextElementSibling.classList.toggle('hidden')" aria-label="Design DNA">DNA</button>
+  <div class="dna-panel hidden">
+    <h4>Design DNA</h4>
+    <p><strong>Stil:</strong> NAVIGARE — Cinematic Voyage</p>
+    <p><strong>Nav:</strong> Fixed header + full-screen overlay</p>
+    <p><strong>Hero:</strong> Parallax + text-mask reveal</p>
+    <p><strong>Boje:</strong> Terracotta + Cream + Adriatic Blue</p>
+    <p><strong>Layout:</strong> Asimetrični editorial, voyage timeline</p>
+    <p><strong>Animacija:</strong> Parallax, stagger, scroll-snap</p>
+    <p><strong>Potpis:</strong> Horizontal prep scroll + bento grid</p>
+    <p><strong>Fontovi:</strong> Playfair Display / Inter / IBM Plex Mono</p>
+    <div class="dna-colors">
+      <div class="dna-color" style="background:#C75B3F" title="Terracotta"></div>
+      <div class="dna-color" style="background:#FAF7F2" title="Cream"></div>
+      <div class="dna-color" style="background:#5A8BA8" title="Adriatic"></div>
+      <div class="dna-color" style="background:#B8986A" title="Gold"></div>
+      <div class="dna-color" style="background:#1A1A1A" title="Ink"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== LANGUAGE SWITCHER ===== */
+function setLang(lang) {
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    if (el.closest('[data-lang-group]') === el.parentElement || el.closest('[data-lang-group]') === el.parentElement?.parentElement) {
+      /* handled by group */
+    }
+  });
+  document.querySelectorAll('[data-lang-group]').forEach(group => {
+    group.querySelectorAll(':scope > [data-lang]').forEach(child => {
+      child.classList.toggle('hidden', child.dataset.lang !== lang);
+    });
+  });
+  document.querySelectorAll('[data-lang-btn]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.langBtn === lang);
+  });
+  document.documentElement.lang = lang;
+  localStorage.setItem('sidro-lang', lang);
+}
+const savedLang = localStorage.getItem('sidro-lang') || 'hr';
+
+/* ===== HEADER SCROLL ===== */
+const header = document.getElementById('siteHeader');
+let lastScroll = 0;
+function onScroll() {
+  const sy = window.scrollY;
+  header.classList.toggle('scrolled', sy > 60);
+  lastScroll = sy;
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+
+/* ===== HAMBURGER / NAV OVERLAY ===== */
+const hamburger = document.getElementById('hamburger');
+const navOverlay = document.getElementById('navOverlay');
+function toggleNav() {
+  const isOpen = navOverlay.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeNav() {
+  navOverlay.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+hamburger.addEventListener('click', toggleNav);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNav(); });
+
+/* ===== PARALLAX ===== */
+const parallaxBg = document.querySelector('.parallax-bg');
+function updateParallax() {
+  if (!parallaxBg) return;
+  const sy = window.scrollY;
+  const heroH = window.innerHeight;
+  if (sy < heroH * 1.2) {
+    parallaxBg.style.transform = `translateY(${sy * 0.35}px)`;
+  }
+}
+window.addEventListener('scroll', updateParallax, { passive: true });
+
+/* ===== SCROLL REVEAL (IntersectionObserver) ===== */
+function initScrollReveal() {
+  const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  if (!els.length) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => obs.observe(el));
+}
+
+/* ===== HORIZONTAL SCROLL — PREP ===== */
+function initPrepScroll() {
+  const track = document.getElementById('prepTrack');
+  const dotsContainer = document.getElementById('prepDots');
+  if (!track || !dotsContainer) return;
+
+  const cards = track.querySelectorAll('.prep-card');
+  const numCards = cards.length;
+
+  // Create dots
+  for (let i = 0; i < numCards; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'prep-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Card ${i + 1}`);
+    dot.addEventListener('click', () => {
+      cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+    });
+    dotsContainer.appendChild(dot);
+  }
+
+  // Update dots on scroll
+  const dots = dotsContainer.querySelectorAll('.prep-dot');
+  track.addEventListener('scroll', () => {
+    const scrollLeft = track.scrollLeft;
+    const cardWidth = cards[0].offsetWidth + 24; // gap
+    const idx = Math.round(scrollLeft / cardWidth);
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  }, { passive: true });
+
+  // Mouse drag
+  let isDragging = false, startX, scrollStart;
+  track.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.pageX - track.offsetLeft;
+    scrollStart = track.scrollLeft;
+    track.style.cursor = 'grabbing';
+  });
+  track.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    track.scrollLeft = scrollStart - (x - startX);
+  });
+  const stopDrag = () => { isDragging = false; track.style.cursor = 'grab'; };
+  track.addEventListener('mouseup', stopDrag);
+  track.addEventListener('mouseleave', stopDrag);
+}
+
+/* ===== MENU TABS ===== */
+function initMenuTabs() {
+  const tabs = document.querySelectorAll('.menu-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = document.getElementById(tab.dataset.tab);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Update active tab on scroll
+  const categories = document.querySelectorAll('.menu-category');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-100px 0px -60% 0px' });
+  categories.forEach(cat => observer.observe(cat));
+}
+
+/* ===== TESTIMONIALS ===== */
+function initTestimonials() {
+  const cards = document.querySelectorAll('.testimonial-card');
+  const dotsContainer = document.getElementById('testimonialDots');
+  if (!cards.length || !dotsContainer) return;
+
+  const total = cards.length;
+  let current = 0;
+  let autoTimer;
+
+  // Create dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'test-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Testimonial ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  }
+  const dots = dotsContainer.querySelectorAll('.test-dot');
+
+  function goTo(idx) {
+    current = ((idx % total) + total) % total;
+    cards.forEach((card, i) => {
+      card.classList.remove('active', 'prev', 'next');
+      if (i === current) card.classList.add('active');
+      else if (i === ((current - 1 + total) % total)) card.classList.add('prev');
+      else if (i === ((current + 1) % total)) card.classList.add('next');
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    resetAuto();
+  }
+
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => goTo(current + 1), 6000);
+  }
+
+  // Pause on hover
+  const wrapper = document.getElementById('testimonialWrapper');
+  wrapper.addEventListener('mouseenter', () => clearInterval(autoTimer));
+  wrapper.addEventListener('mouseleave', resetAuto);
+
+  // Touch swipe
+  let touchStartX = 0;
+  wrapper.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  wrapper.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+  }, { passive: true });
+
+  goTo(0);
+}
+
+/* ===== INIT ===== */
+document.addEventListener('DOMContentLoaded', () => {
+  setLang(savedLang);
+  initScrollReveal();
+  initPrepScroll();
+  initMenuTabs();
+  initTestimonials();
+  onScroll();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konoba Sidro — Okusi koji pričaju priče</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700;9..144,900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --terra: #C2724F;
+            --terra-dark: #A85D3F;
+            --stone: #E8DCC8;
+            --olive: #3B4332;
+            --cream: #FAF5EF;
+            --charcoal: #2A2522;
+            --charcoal-light: #352F2B;
+            --charcoal-deep: #1E1A17;
+            --gold: #C9A54E;
+            --gold-light: #D4B76A;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--stone);
+            background: var(--charcoal);
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        body.menu-open,
+        body.nav-open {
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Fraunces', serif;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+
+        /* ===== GRAIN OVERLAY ===== */
+        .grain-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" /></filter><rect width="100%" height="100%" filter="url(%23noise)" /></svg>');
+            z-index: 9999;
+        }
+
+        /* ===== NAVIGATION — DESKTOP ===== */
+        .site-header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 200;
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .site-header.scrolled {
+            background: rgba(30, 26, 23, 0.95);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 1px 0 rgba(201, 165, 78, 0.08);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 1px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        .nav-logo:hover { opacity: 0.8; }
+
+        .nav-center {
+            display: none;
+            gap: 2.5rem;
+        }
+
+        .nav-center a {
+            color: rgba(232, 220, 200, 0.7);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            padding: 0.25rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav-center a:hover {
+            color: var(--gold);
+        }
+
+        .nav-center a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0;
+            width: 0; height: 1.5px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-center a:hover::after { width: 100%; }
+
+        .nav-cta-btn {
+            display: none;
+            background: var(--terra);
+            color: var(--cream);
+            padding: 0.65rem 1.5rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta-btn:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 165, 78, 0.2);
+        }
+
+        /* ===== HAMBURGER ===== */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 44px; height: 44px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 301;
+            position: relative;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 22px; height: 1.5px;
+            background: var(--gold);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(4.5px, 4.5px);
+            background: var(--cream);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(4.5px, -4.5px);
+            background: var(--cream);
+        }
+
+        /* ===== MOBILE NAV OVERLAY ===== */
+        .mobile-nav-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 26, 23, 0.96);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s;
+        }
+
+        .mobile-nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-nav-overlay a {
+            color: var(--stone);
+            text-decoration: none;
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            padding: 0.7rem 2rem;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.4s ease, transform 0.4s ease, color 0.3s;
+        }
+
+        .mobile-nav-overlay.active a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-nav-overlay.active a:nth-child(1) { transition-delay: 0.05s; }
+        .mobile-nav-overlay.active a:nth-child(2) { transition-delay: 0.1s; }
+        .mobile-nav-overlay.active a:nth-child(3) { transition-delay: 0.15s; }
+        .mobile-nav-overlay.active a:nth-child(4) { transition-delay: 0.2s; }
+        .mobile-nav-overlay.active a:nth-child(5) { transition-delay: 0.25s; }
+
+        .mobile-nav-overlay a:hover { color: var(--gold); }
+
+        .mobile-nav-overlay .mobile-nav-cta {
+            margin-top: 2.5rem;
+            background: var(--terra);
+            color: var(--cream);
+            padding: 1rem 2.5rem;
+            border-radius: 2px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ===== FAB ===== */
+        .fab {
+            position: fixed;
+            bottom: 1.5rem; right: 1.5rem;
+            width: 56px; height: 56px;
+            background: var(--terra);
+            color: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            z-index: 199;
+            box-shadow: 0 6px 24px rgba(194, 114, 79, 0.35);
+            animation: fabFloat 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .fab:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+            transform: scale(1.08);
+            box-shadow: 0 10px 32px rgba(201, 165, 78, 0.35);
+        }
+
+        @keyframes fabFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=80&fit=crop') center/cover no-repeat;
+            filter: brightness(0.35) saturate(1.1);
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(30, 26, 23, 0.5) 0%,
+                rgba(42, 37, 34, 0.2) 40%,
+                rgba(42, 37, 34, 0.4) 70%,
+                rgba(42, 37, 34, 0.85) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .hero-headline {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 300;
+            color: var(--cream);
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1.5px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.4s;
+        }
+
+        .hero-sub {
+            font-size: clamp(0.92rem, 2.2vw, 1.1rem);
+            color: rgba(232, 220, 200, 0.7);
+            max-width: 540px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.75;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.8s;
+        }
+
+        .btn-primary {
+            background: var(--terra);
+            color: var(--cream);
+            padding: 0.85rem 2rem;
+            border: 2px solid var(--terra);
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--charcoal);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 165, 78, 0.25);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--cream);
+            padding: 0.85rem 2rem;
+            border: 1.5px solid rgba(201, 165, 78, 0.5);
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background: rgba(201, 165, 78, 0.1);
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            color: rgba(201, 165, 78, 0.5);
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeInUp 0.8s ease forwards 1.2s;
+            opacity: 0;
+        }
+
+        .hero-scroll-hint::after {
+            content: '';
+            width: 1px;
+            height: 28px;
+            background: linear-gradient(to bottom, rgba(201,165,78,0.5), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; height: 28px; }
+            50% { opacity: 0.8; height: 36px; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SECTIONS BASE ===== */
+        .section-pad {
+            padding: 5rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .container-wide {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 300;
+            color: var(--cream);
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: -0.5px;
+            line-height: 1.12;
+        }
+
+        .section-rule {
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            margin: 0 auto 2.5rem;
+            position: relative;
+        }
+
+        .section-rule::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5px;
+            height: 5px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        /* ===== ABOUT / NASA PRICA ===== */
+        .about-section {
+            background: var(--charcoal);
+        }
+
+        .about-content {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--stone);
+            text-align: left;
+        }
+
+        .about-text::first-letter {
+            font-size: 3.8em;
+            float: left;
+            line-height: 0.78;
+            padding-right: 0.15em;
+            padding-top: 0.05em;
+            font-family: 'Fraunces', serif;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .about-text + .about-text {
+            margin-top: 1.25rem;
+        }
+
+        .about-text + .about-text::first-letter {
+            font-size: 1.05rem;
+            float: none;
+            padding: 0;
+            color: var(--stone);
+        }
+
+        .dotted-sep {
+            width: 100%;
+            border: none;
+            border-top: 1px dotted rgba(201, 165, 78, 0.25);
+            margin: 2rem 0;
+        }
+
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            background: var(--olive);
+            padding: 2.5rem 1.5rem;
+            position: relative;
+        }
+
+        .stats-bar::before,
+        .stats-bar::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 165, 78, 0.2), transparent);
+        }
+
+        .stats-bar::before { top: 0; }
+        .stats-bar::after { bottom: 0; }
+
+        .stats-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            text-align: center;
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            position: relative;
+        }
+
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0; top: 10%; bottom: 10%;
+            width: 1px;
+            background: rgba(201, 165, 78, 0.15);
+        }
+
+        .stat-value {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(1.4rem, 3vw, 1.9rem);
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: rgba(232, 220, 200, 0.6);
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== FEATURED DISHES ===== */
+        .featured-section {
+            background: var(--charcoal-deep);
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .featured-card {
+            position: relative;
+            border-radius: 3px;
+            overflow: hidden;
+            background: var(--charcoal-light);
+            border: 1px solid rgba(201, 165, 78, 0.08);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(201, 165, 78, 0.2);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .featured-card-img {
+            aspect-ratio: 16/10;
+            overflow: hidden;
+        }
+
+        .featured-card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+            filter: brightness(0.9) saturate(1.05);
+        }
+
+        .featured-card:hover .featured-card-img img {
+            transform: scale(1.06);
+            filter: brightness(1) saturate(1.1);
+        }
+
+        .featured-card-body {
+            padding: 1.4rem;
+        }
+
+        .featured-card-name {
+            font-family: 'Fraunces', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 0.3rem;
+        }
+
+        .featured-card-desc {
+            font-size: 0.82rem;
+            color: rgba(232, 220, 200, 0.5);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .featured-card-price {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .link-menu {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: gap 0.3s ease, color 0.3s;
+        }
+
+        .link-menu:hover {
+            gap: 0.85rem;
+            color: var(--terra);
+        }
+
+        .link-menu i {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .link-menu:hover i { transform: translateX(3px); }
+
+        /* ===== GALLERY ===== */
+        .gallery-section {
+            background: var(--charcoal);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.6rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 2px;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+
+        .gallery-item:nth-child(1) {
+            grid-column: span 2;
+            aspect-ratio: 16/9;
+        }
+
+        .gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            filter: brightness(0.85) saturate(1.05);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+            filter: brightness(1) saturate(1.1);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 26, 23, 0);
+            transition: background 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            background: rgba(30, 26, 23, 0.4);
+        }
+
+        .gallery-item-overlay i {
+            color: var(--gold);
+            font-size: 1.3rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-item-overlay i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ===== TESTIMONIALS CAROUSEL ===== */
+        .testimonials-section {
+            background: var(--charcoal-deep);
+            position: relative;
+        }
+
+        .testimonials-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 165, 78, 0.15), transparent);
+        }
+
+        .testimonials-viewport {
+            max-width: 700px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .testimonial-slide {
+            flex: 0 0 100%;
+            text-align: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .testimonial-quote-mark {
+            font-family: 'Fraunces', serif;
+            font-size: 4.5rem;
+            color: var(--gold);
+            opacity: 0.2;
+            line-height: 0.4;
+            margin-bottom: 1.2rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.08rem;
+            font-style: italic;
+            line-height: 1.85;
+            color: var(--stone);
+            margin-bottom: 1.5rem;
+            max-width: 540px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonial-author {
+            font-family: 'Fraunces', serif;
+            font-size: 0.95rem;
+            color: var(--gold);
+            font-weight: 400;
+        }
+
+        .testimonial-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .t-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(201, 165, 78, 0.2);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .t-dot.active {
+            background: var(--gold);
+            width: 24px;
+            border-radius: 3px;
+        }
+
+        /* ===== RESERVATION CTA ===== */
+        .reservation-section {
+            background: var(--charcoal);
+            position: relative;
+        }
+
+        .reservation-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201, 165, 78, 0.15), transparent);
+        }
+
+        .reservation-ctas {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .cta-link {
+            padding: 1rem 2rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .cta-phone {
+            background: var(--terra);
+            color: var(--cream);
+        }
+
+        .cta-phone:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 165, 78, 0.2);
+        }
+
+        .cta-email {
+            background: transparent;
+            color: var(--gold);
+            border: 1.5px solid rgba(201, 165, 78, 0.4);
+        }
+
+        .cta-email:hover {
+            background: rgba(201, 165, 78, 0.08);
+            border-color: var(--gold);
+            color: var(--cream);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            background: var(--charcoal-deep);
+            color: var(--stone);
+            padding: 3.5rem 1.5rem 2rem;
+            border-top: 1px solid rgba(201, 165, 78, 0.08);
+        }
+
+        .footer-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h4 {
+            font-family: 'Fraunces', serif;
+            color: var(--gold);
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-col p {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            opacity: 0.65;
+        }
+
+        .footer-col a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover { color: var(--terra); }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 0 auto;
+            border-top: 1px solid rgba(201, 165, 78, 0.06);
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            opacity: 0.4;
+        }
+
+        /* ===== MENU VIEW ===== */
+        .menu-view {
+            position: fixed;
+            inset: 0;
+            background: var(--charcoal);
+            z-index: 250;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .menu-view.active {
+            transform: translateY(0);
+        }
+
+        .menu-view-header {
+            position: sticky;
+            top: 0;
+            background: rgba(30, 26, 23, 0.97);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 10;
+            border-bottom: 1px solid rgba(201, 165, 78, 0.08);
+        }
+
+        .menu-view-header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .menu-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--stone);
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: -0.5rem;
+            transition: color 0.3s;
+        }
+
+        .menu-back-btn:hover { color: var(--gold); }
+
+        .menu-view-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--gold);
+        }
+
+        .menu-back-spacer { width: 80px; }
+
+        /* Sticky tab bar */
+        .menu-tabs {
+            position: sticky;
+            top: 56px;
+            background: rgba(30, 26, 23, 0.97);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 9;
+            border-bottom: 1px solid rgba(201, 165, 78, 0.08);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .menu-tabs::-webkit-scrollbar { display: none; }
+
+        .menu-tabs-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            padding: 0 1.5rem;
+        }
+
+        .menu-tab {
+            background: none;
+            border: none;
+            padding: 0.9rem 1.4rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: rgba(232, 220, 200, 0.4);
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            transition: color 0.3s;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .menu-tab:hover { color: var(--stone); }
+
+        .menu-tab.active {
+            color: var(--gold);
+        }
+
+        .menu-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 1.4rem;
+            right: 1.4rem;
+            height: 2px;
+            background: var(--terra);
+        }
+
+        /* Menu content */
+        .menu-view-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 4rem;
+        }
+
+        .menu-category {
+            margin-bottom: 3.5rem;
+        }
+
+        .menu-category-title {
+            font-family: 'Fraunces', serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(201, 165, 78, 0.12);
+        }
+
+        .menu-items-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.85rem 0;
+            border-bottom: 1px dotted rgba(201, 165, 78, 0.12);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item-name {
+            font-family: 'Fraunces', serif;
+            font-size: 1.02rem;
+            font-weight: 400;
+            color: var(--cream);
+        }
+
+        .menu-item-price {
+            font-size: 0.92rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-left: 1rem;
+            white-space: nowrap;
+        }
+
+        .menu-view-cta {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            border-top: 1px solid rgba(201, 165, 78, 0.08);
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal-delay-1 { transition-delay: 0.1s; }
+        .scroll-reveal-delay-2 { transition-delay: 0.2s; }
+        .scroll-reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* ===== RESPONSIVE ===== */
+
+        @media (min-width: 640px) {
+            .featured-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .reservation-ctas {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .hamburger { display: none; }
+            .fab { display: none; }
+
+            .nav-center { display: flex; }
+            .nav-cta-btn { display: inline-flex; }
+
+            .section-pad { padding: 6rem 2rem; }
+            .header-inner { padding: 1rem 3rem; }
+
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 0.8rem;
+            }
+
+            .gallery-item:nth-child(1) {
+                grid-column: span 2;
+                grid-row: span 2;
+                aspect-ratio: auto;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+                text-align: left;
+            }
+
+            .menu-items-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0 3rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-headline { font-size: 5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain-overlay"></div>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <header class="site-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="#" class="nav-logo" onclick="event.preventDefault();">Sidro</a>
+            <nav class="nav-center">
+                <a href="#home">Početna</a>
+                <a href="#about">O Nama</a>
+                <a href="#" onclick="event.preventDefault(); openMenu();">Jelovnik</a>
+                <a href="#gallery">Galerija</a>
+                <a href="#contact">Kontakt</a>
+            </nav>
+            <a href="tel:+38552444521" class="nav-cta-btn">Rezervirajte</a>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Otvori izbornik">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNav">
+        <a href="#home" onclick="closeMobileNav()">Početna</a>
+        <a href="#about" onclick="closeMobileNav()">O Nama</a>
+        <a href="#" onclick="event.preventDefault(); closeMobileNav(); setTimeout(openMenu, 300);">Jelovnik</a>
+        <a href="#gallery" onclick="closeMobileNav()">Galerija</a>
+        <a href="#contact" onclick="closeMobileNav()">Kontakt</a>
+        <a href="tel:+38552444521" class="mobile-nav-cta" onclick="closeMobileNav()">
+            <i class="fas fa-phone"></i> Rezervirajte
+        </a>
+    </div>
+
+    <!-- FAB (Mobile only) -->
+    <a href="tel:+38552444521" class="fab" title="Rezervirajte" aria-label="Nazovite za rezervaciju">
+        <i class="fas fa-phone"></i>
+    </a>
+
+    <!-- ==================== HERO ==================== -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <span class="hero-tag">Rovinj, Istra — Od 1987.</span>
+            <h1 class="hero-headline">Okusi koji pričaju priče</h1>
+            <p class="hero-sub">Istarska kuhinja s dušom — svježa riba, domaća tjestenina i lokalni sastojci uz obalu Jadrana</p>
+            <div class="hero-ctas">
+                <a href="tel:+38552444521" class="btn-primary">
+                    <i class="fas fa-phone"></i> Rezervirajte stol
+                </a>
+                <a href="#" class="btn-outline" onclick="event.preventDefault(); openMenu();">
+                    <i class="fas fa-utensils"></i> Pogledajte jelovnik
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll-hint">Otkrijte</div>
+    </section>
+
+    <!-- ==================== ABOUT / NAŠA PRIČA ==================== -->
+    <section id="about" class="section-pad about-section scroll-reveal">
+        <div class="container">
+            <span class="section-label">O nama</span>
+            <h2 class="section-title">Naša priča</h2>
+            <div class="section-rule"></div>
+            <div class="about-content">
+                <p class="about-text">Konoba Sidro već generacijama čuva tajne istarske kuhinje. Smještena uz samu obalu, naša konoba spaja autentičnu atmosferu kamenog interijera s pogledom na plavo more. Svaki dan počinjemo na ribarnici — biramo najsvježiju ribu, lokalne škampe i lignje.</p>
+                <hr class="dotted-sep">
+                <p class="about-text" style="font-size: 0.95rem; text-align: center; font-style: italic; color: rgba(232,220,200,0.6);">Naša filozofija je jednostavna: poštujemo tradiciju, koristimo samo najbolje lokalne sastojke i svaki tanjur pripremamo s ljubavlju.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== STATS BAR ==================== -->
+    <div class="stats-bar scroll-reveal">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">Od 1987.</div>
+                <div class="stat-label">Generacije tradicije</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">4.8/5</div>
+                <div class="stat-label">Google ocjena</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Lokalno porijeklo</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FEATURED DISHES ==================== -->
+    <section class="section-pad featured-section scroll-reveal">
+        <div class="container">
+            <span class="section-label">Iz naše kuhinje</span>
+            <h2 class="section-title">Istaknuta jela</h2>
+            <div class="section-rule"></div>
+
+            <div class="featured-grid">
+                <div class="featured-card scroll-reveal scroll-reveal-delay-1" onclick="openMenu()">
+                    <div class="featured-card-img">
+                        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&q=80&fit=crop" alt="Brancin na žaru" loading="lazy">
+                    </div>
+                    <div class="featured-card-body">
+                        <div class="featured-card-name">Brancin na žaru</div>
+                        <div class="featured-card-desc">Svježi brancin s obale, na žaru s maslinovim uljem</div>
+                        <div class="featured-card-price">28€</div>
+                    </div>
+                </div>
+
+                <div class="featured-card scroll-reveal scroll-reveal-delay-2" onclick="openMenu()">
+                    <div class="featured-card-img">
+                        <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80&fit=crop" alt="Fužići s tartufima" loading="lazy">
+                    </div>
+                    <div class="featured-card-body">
+                        <div class="featured-card-name">Fužići s tartufima</div>
+                        <div class="featured-card-desc">Domaća tjestenina s istarskim tartufima</div>
+                        <div class="featured-card-price">22€</div>
+                    </div>
+                </div>
+
+                <div class="featured-card scroll-reveal scroll-reveal-delay-3" onclick="openMenu()">
+                    <div class="featured-card-img">
+                        <img src="https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=800&q=80&fit=crop" alt="Njoki s morskim plodovima" loading="lazy">
+                    </div>
+                    <div class="featured-card-body">
+                        <div class="featured-card-name">Njoki s morskim plodovima</div>
+                        <div class="featured-card-desc">Ručno rađeni njoki s kozicama i dagnjama</div>
+                        <div class="featured-card-price">21€</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="#" class="link-menu" onclick="event.preventDefault(); openMenu();">
+                    Pogledajte cijeli jelovnik <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== GALLERY ==================== -->
+    <section id="gallery" class="section-pad gallery-section scroll-reveal">
+        <div class="container-wide">
+            <span class="section-label">Atmosfera, okusi i trenuci</span>
+            <h2 class="section-title">Galerija</h2>
+            <div class="section-rule"></div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80&fit=crop" alt="Restoran interijer" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80&fit=crop" alt="Priprema jela" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=800&q=80&fit=crop" alt="Morski plodovi" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=800&q=80&fit=crop" alt="Svježa riba" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=800&q=80&fit=crop" alt="Tjestenina" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80&fit=crop" alt="Vino" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=800&q=80&fit=crop" alt="Vanjska terasa" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=1600&q=80&fit=crop" alt="Zalazak sunca" loading="lazy">
+                    <div class="gallery-item-overlay"><i class="fas fa-expand"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="section-pad testimonials-section scroll-reveal">
+        <div class="container">
+            <span class="section-label">Dojmovi gostiju</span>
+            <h2 class="section-title">Recenzije</h2>
+            <div class="section-rule"></div>
+
+            <div class="testimonials-viewport">
+                <div class="testimonial-track" id="testimonialTrack">
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote-mark">"</div>
+                        <p class="testimonial-text">Svaki put kad dođemo u Istru, Sidro je naša prva i zadnja večera. Brancin na žaru je savršenstvo.</p>
+                        <p class="testimonial-author">— Marina Kovačević, gošća od 2019.</p>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote-mark">"</div>
+                        <p class="testimonial-text">Kao da si kod bake na ručku, samo s pogledom na more. Autentična istarska kuhinja kakva se više teško nalazi.</p>
+                        <p class="testimonial-author">— Ante Brajković, Pula</p>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote-mark">"</div>
+                        <p class="testimonial-text">Otkrili smo Sidro slučajno i sad se vraćamo svako ljeto. Fužići s tartufima su nezaboravni.</p>
+                        <p class="testimonial-author">— James & Sarah Parker, London</p>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote-mark">"</div>
+                        <p class="testimonial-text">Najbolji riblji restoran u Istri. Svježe sastojke osjetiš u svakom zalogaju.</p>
+                        <p class="testimonial-author">— Thomas & Eva Müller, München</p>
+                    </div>
+                    <div class="testimonial-slide">
+                        <div class="testimonial-quote-mark">"</div>
+                        <p class="testimonial-text">Restoran koji poštuje tradiciju. Fužići s tartufima su najbolji koje smo ikad probali.</p>
+                        <p class="testimonial-author">— Famiglia Rossi, Trieste</p>
+                    </div>
+                </div>
+                <div class="testimonial-dots" id="testimonialDots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== RESERVATION CTA ==================== -->
+    <section id="contact" class="section-pad reservation-section scroll-reveal">
+        <div class="container" style="text-align: center;">
+            <span class="section-label">Slobodno nas nazovite</span>
+            <h2 class="section-title">Rezervirajte svoj stol</h2>
+            <div class="section-rule"></div>
+            <p style="max-width: 480px; margin: 0 auto 2rem; color: rgba(232,220,200,0.55); font-size: 0.92rem;">Preporučujemo rezervaciju, posebno vikendom i tijekom ljetne sezone.</p>
+            <div class="reservation-ctas">
+                <a href="tel:+38552444521" class="cta-link cta-phone">
+                    <i class="fas fa-phone"></i> Pozovite +385 52 444 521
+                </a>
+                <a href="mailto:info@konoba-sidro.hr" class="cta-link cta-email">
+                    <i class="fas fa-envelope"></i> info@konoba-sidro.hr
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Konoba Sidro</h4>
+                <p>Obala 12, 52210 Rovinj<br>Istra, Hrvatska</p>
+            </div>
+            <div class="footer-col">
+                <h4>Kontakt</h4>
+                <p><a href="tel:+38552444521">+385 52 444 521</a><br>
+                <a href="mailto:info@konoba-sidro.hr">info@konoba-sidro.hr</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Radno vrijeme</h4>
+                <p>Pon-Čet: 12-23h<br>Pet-Sub: 12-23h<br>Ned: 12-22h</p>
+            </div>
+            <div class="footer-col">
+                <h4>Pratite nas</h4>
+                <p>
+                    <a href="#" style="margin-right: 0.75rem;"><i class="fab fa-facebook"></i> Facebook</a><br>
+                    <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Konoba Sidro. Sva prava pridržana.
+        </div>
+    </footer>
+
+    <!-- ==================== MENU VIEW ==================== -->
+    <div class="menu-view" id="menuView">
+        <div class="menu-view-header">
+            <div class="menu-view-header-inner">
+                <button class="menu-back-btn" onclick="closeMenu()">
+                    <i class="fas fa-arrow-left"></i> Natrag
+                </button>
+                <span class="menu-view-title">Naš jelovnik</span>
+                <span class="menu-back-spacer"></span>
+            </div>
+        </div>
+
+        <div class="menu-tabs" id="menuTabs">
+            <div class="menu-tabs-inner">
+                <button class="menu-tab active" data-target="cat-predjela">Predjela</button>
+                <button class="menu-tab" data-target="cat-tjestenina">Tjestenina</button>
+                <button class="menu-tab" data-target="cat-riba">Riba i morski plodovi</button>
+                <button class="menu-tab" data-target="cat-deserti">Deserti</button>
+            </div>
+        </div>
+
+        <div class="menu-view-content">
+            <!-- Predjela -->
+            <div class="menu-category" id="cat-predjela">
+                <h3 class="menu-category-title">Predjela</h3>
+                <div class="menu-items-grid">
+                    <div class="menu-item">
+                        <span class="menu-item-name">Istarski pršut s domaćim sirom</span>
+                        <span class="menu-item-price">14€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Carpaccio od hobotnice</span>
+                        <span class="menu-item-price">16€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Bruschetta s tartufima</span>
+                        <span class="menu-item-price">18€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Tuna tartare s avokadom</span>
+                        <span class="menu-item-price">17€</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tjestenina -->
+            <div class="menu-category" id="cat-tjestenina">
+                <h3 class="menu-category-title">Tjestenina</h3>
+                <div class="menu-items-grid">
+                    <div class="menu-item">
+                        <span class="menu-item-name">Fužići s tartufima</span>
+                        <span class="menu-item-price">22€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Pljukanci s divljom šparogom</span>
+                        <span class="menu-item-price">19€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Njoki s morskim plodovima</span>
+                        <span class="menu-item-price">21€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Crni rižoto s lignjama</span>
+                        <span class="menu-item-price">20€</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Riba i morski plodovi -->
+            <div class="menu-category" id="cat-riba">
+                <h3 class="menu-category-title">Riba i morski plodovi</h3>
+                <div class="menu-items-grid">
+                    <div class="menu-item">
+                        <span class="menu-item-name">Brancin na žaru</span>
+                        <span class="menu-item-price">28€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Orada s povrćem</span>
+                        <span class="menu-item-price">26€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Lignje na buzaru</span>
+                        <span class="menu-item-price">22€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Riblja plata za dvoje</span>
+                        <span class="menu-item-price">55€</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deserti -->
+            <div class="menu-category" id="cat-deserti">
+                <h3 class="menu-category-title">Deserti</h3>
+                <div class="menu-items-grid">
+                    <div class="menu-item">
+                        <span class="menu-item-name">Fritule s čokoladom</span>
+                        <span class="menu-item-price">10€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Krostule s vanilijom</span>
+                        <span class="menu-item-price">9€</span>
+                    </div>
+                    <div class="menu-item">
+                        <span class="menu-item-name">Panna cotta s lavandom</span>
+                        <span class="menu-item-price">11€</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA inside menu view -->
+        <div class="menu-view-cta">
+            <p style="font-family: 'Fraunces', serif; font-size: 1.15rem; margin-bottom: 1rem; color: var(--cream);">Želite probati?</p>
+            <a href="tel:+38552444521" class="btn-primary">
+                <i class="fas fa-phone"></i> Rezervirajte stol
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // === Header scroll behavior ===
+        const header = document.getElementById('siteHeader');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // === Mobile nav ===
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileNav = document.getElementById('mobileNav');
+
+        hamburgerBtn.addEventListener('click', () => {
+            const isActive = hamburgerBtn.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            document.body.classList.toggle('nav-open', isActive);
+        });
+
+        function closeMobileNav() {
+            hamburgerBtn.classList.remove('active');
+            mobileNav.classList.remove('active');
+            document.body.classList.remove('nav-open');
+        }
+
+        // === Menu view ===
+        const menuView = document.getElementById('menuView');
+
+        function openMenu() {
+            menuView.classList.add('active');
+            document.body.classList.add('menu-open');
+            menuView.scrollTop = 0;
+            updateActiveTab();
+        }
+
+        function closeMenu() {
+            menuView.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+
+        // Menu tabs
+        const menuTabs = document.querySelectorAll('.menu-tab');
+
+        menuTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.dataset.target;
+                const target = document.getElementById(targetId);
+                if (target) {
+                    const tabBarHeight = document.getElementById('menuTabs').offsetHeight + document.querySelector('.menu-view-header').offsetHeight;
+                    menuView.scrollTo({
+                        top: target.offsetTop - tabBarHeight - 16,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Update active tab on scroll
+        function updateActiveTab() {
+            const categories = menuView.querySelectorAll('.menu-category');
+            const tabBarHeight = document.getElementById('menuTabs').offsetHeight + document.querySelector('.menu-view-header').offsetHeight + 32;
+
+            let currentId = '';
+            categories.forEach(cat => {
+                if (cat.offsetTop - tabBarHeight <= menuView.scrollTop) {
+                    currentId = cat.id;
+                }
+            });
+
+            menuTabs.forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.target === currentId);
+            });
+        }
+
+        menuView.addEventListener('scroll', updateActiveTab);
+
+        // === Testimonials carousel ===
+        const track = document.getElementById('testimonialTrack');
+        const slides = track.querySelectorAll('.testimonial-slide');
+        const dotsContainer = document.getElementById('testimonialDots');
+        let currentSlide = 0;
+        let autoRotateTimer;
+
+        // Create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 't-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', 'Recenzija ' + (i + 1));
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll('.t-dot');
+
+        function goToSlide(index) {
+            currentSlide = index;
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+            resetAutoRotate();
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % slides.length);
+        }
+
+        function resetAutoRotate() {
+            clearInterval(autoRotateTimer);
+            autoRotateTimer = setInterval(nextSlide, 6000);
+        }
+
+        resetAutoRotate();
+
+        // === Scroll reveal (IntersectionObserver) ===
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        scrollRevealElements.forEach(el => revealObserver.observe(el));
+
+        // === Smooth scroll for anchor links ===
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#' || href.length < 2) return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // === Escape key closes menu/nav ===
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (menuView.classList.contains('active')) closeMenu();
+                if (mobileNav.classList.contains('active')) closeMobileNav();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konoba Sidro — Dizajn Prototipovi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #FAFAF8;
+            color: #1A1A1A;
+            min-height: 100vh;
+        }
+        header {
+            border-bottom: 1px solid #E8E5E0;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+            padding: 1.25rem 1.5rem;
+            text-align: center;
+        }
+        header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.75rem;
+            letter-spacing: -0.02em;
+        }
+        header p {
+            color: #6B6B6B;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+        .grid {
+            max-width: 1100px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: #fff;
+            border: 1px solid #E8E5E0;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: box-shadow 300ms ease, transform 300ms ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .card:hover {
+            box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+            transform: translateY(-3px);
+        }
+        .card-preview {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            border-bottom: 1px solid #E8E5E0;
+            background: #f0eeea;
+        }
+        .card-preview iframe {
+            width: 1280px;
+            height: 900px;
+            border: none;
+            transform: scale(0.28);
+            transform-origin: top left;
+            pointer-events: none;
+        }
+        .card-body {
+            padding: 1.25rem 1.5rem;
+        }
+        .card-number {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6B6B6B;
+            margin-bottom: 0.25rem;
+        }
+        .card-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.5rem;
+        }
+        .card-desc {
+            font-size: 0.82rem;
+            line-height: 1.55;
+            color: #6B6B6B;
+            margin-bottom: 0.75rem;
+        }
+        .colors {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 0.75rem;
+        }
+        .dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.06);
+        }
+        .card-link {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #2C5F4A;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.75rem;
+            color: #6B6B6B;
+            border-top: 1px solid #E8E5E0;
+        }
+        @media (max-width: 700px) {
+            .grid { grid-template-columns: 1fr; }
+            .card-preview { height: 180px; }
+            .card-preview iframe { transform: scale(0.24); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Konoba Sidro</h1>
+        <p>Dizajn prototipovi &middot; 6 varijanti</p>
+    </header>
+
+    <div class="grid">
+
+        <a href="prototype-1-istarska-elegancija.html" class="card">
+            <div class="card-preview">
+                <iframe src="prototype-1-istarska-elegancija.html" loading="lazy" sandbox="allow-scripts allow-same-origin" tabindex="-1"></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-number">Prototip 1</div>
+                <div class="card-title">TERRA — Earthy Luxury</div>
+                <div class="card-desc">Topli zemaljski tonovi Istre. Bottom tab bar navigacija, kompaktan hero, scroll reveal animacije. Fraunces + Outfit.</div>
+                <div class="colors">
+                    <span class="dot" style="background:#C2724F"></span>
+                    <span class="dot" style="background:#E8DCC8"></span>
+                    <span class="dot" style="background:#3B4332"></span>
+                    <span class="dot" style="background:#FAF5EF"></span>
+                    <span class="dot" style="background:#C9A54E"></span>
+                </div>
+                <span class="card-link">Otvori prototip &rarr;</span>
+            </div>
+        </a>
+
+        <a href="prototype-2-morski-mrak.html" class="card">
+            <div class="card-preview">
+                <iframe src="prototype-2-morski-mrak.html" loading="lazy" sandbox="allow-scripts allow-same-origin" tabindex="-1"></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-number">Prototip 2</div>
+                <div class="card-title">NOTTE — Dark Cinematic</div>
+                <div class="card-desc">Dramatičan tamni koncept inspiriran jadranskom noći. Film grain overlay, slide-out drawer navigacija. Bodoni Moda + Figtree.</div>
+                <div class="colors">
+                    <span class="dot" style="background:#0A1628"></span>
+                    <span class="dot" style="background:#162A45"></span>
+                    <span class="dot" style="background:#D4A853"></span>
+                    <span class="dot" style="background:#F0ECE4"></span>
+                    <span class="dot" style="background:#0F1D30"></span>
+                </div>
+                <span class="card-link">Otvori prototip &rarr;</span>
+            </div>
+        </a>
+
+        <a href="prototype-5-vintage-istra.html" class="card">
+            <div class="card-preview">
+                <iframe src="prototype-5-vintage-istra.html" loading="lazy" sandbox="allow-scripts allow-same-origin" tabindex="-1"></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-number">Prototip 5</div>
+                <div class="card-title">ADRIATICO — Coastal Editorial</div>
+                <div class="card-desc">Magazine editorial stil inspiriran obalom. Horizontalna scroll navigacija, drop-cap inicijali. Libre Baskerville + Righteous.</div>
+                <div class="colors">
+                    <span class="dot" style="background:#F5F0E8"></span>
+                    <span class="dot" style="background:#F0E8D8"></span>
+                    <span class="dot" style="background:#2C2416"></span>
+                    <span class="dot" style="background:#B83A2A"></span>
+                    <span class="dot" style="background:#C9A54E"></span>
+                </div>
+                <span class="card-link">Otvori prototip &rarr;</span>
+            </div>
+        </a>
+
+        <a href="prototype-6-sidro-cinematica.html" class="card">
+            <div class="card-preview">
+                <iframe src="prototype-6-sidro-cinematica.html" loading="lazy" sandbox="allow-scripts allow-same-origin" tabindex="-1"></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-number">Prototip 6</div>
+                <div class="card-title">CINEMATICA — Teal & Gold</div>
+                <div class="card-desc">Cinematski doživljaj s teal i zlatnim tonovima. Scroll-snap sekcije, elegantna tipografija. Playfair Display + Inter.</div>
+                <div class="colors">
+                    <span class="dot" style="background:#0D3D42"></span>
+                    <span class="dot" style="background:#145A62"></span>
+                    <span class="dot" style="background:#C9A84C"></span>
+                    <span class="dot" style="background:#FEFCF8"></span>
+                    <span class="dot" style="background:#E8DDD2"></span>
+                </div>
+                <span class="card-link">Otvori prototip &rarr;</span>
+            </div>
+        </a>
+
+        <a href="prototype-7-cinematic-scroll.html" class="card">
+            <div class="card-preview">
+                <iframe src="prototype-7-cinematic-scroll.html" loading="lazy" sandbox="allow-scripts allow-same-origin" tabindex="-1"></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-number">Prototip 7</div>
+                <div class="card-title">CINEMATIC SCROLL — Navy & Coral</div>
+                <div class="card-desc">Full-screen scroll-snap sekcije s navy pozadinom i coral akcentima. Dramatičan cinematic pristup. Cormorant Garamond + Inter.</div>
+                <div class="colors">
+                    <span class="dot" style="background:#1B2845"></span>
+                    <span class="dot" style="background:#E8744C"></span>
+                    <span class="dot" style="background:#C9A86A"></span>
+                    <span class="dot" style="background:#F5F0E8"></span>
+                    <span class="dot" style="background:#FEFCF8"></span>
+                </div>
+                <span class="card-link">Otvori prototip &rarr;</span>
+            </div>
+        </a>
+
+        <a href="prototype-8-navigare.html" class="card">
+            <div class="card-preview">
+                <iframe src="prototype-8-navigare.html" loading="lazy" sandbox="allow-scripts allow-same-origin" tabindex="-1"></iframe>
+            </div>
+            <div class="card-body">
+                <div class="card-number">Prototip 8</div>
+                <div class="card-title">NAVIGARE — Warm Mediterranean</div>
+                <div class="card-desc">Topli mediteranski stil s terracotta akcentima i adriatic plavom. Klasičan layout, čist dizajn. Playfair Display + Inter.</div>
+                <div class="colors">
+                    <span class="dot" style="background:#C75B3F"></span>
+                    <span class="dot" style="background:#FAF7F2"></span>
+                    <span class="dot" style="background:#B8986A"></span>
+                    <span class="dot" style="background:#5A8BA8"></span>
+                    <span class="dot" style="background:#1A1A1A"></span>
+                </div>
+                <span class="card-link">Otvori prototip &rarr;</span>
+            </div>
+        </a>
+
+    </div>
+
+    <footer>
+        Konoba Sidro &mdash; Dizajn prototipovi &middot; 6 varijanti
+    </footer>
+</body>
+</html>
